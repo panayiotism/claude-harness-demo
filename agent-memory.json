@@ -1,16 +1,57 @@
 {
   "version": 1,
-  "lastUpdated": "2025-12-25T00:00:00.000Z",
+  "lastUpdated": "2025-12-25T10:37:00.000Z",
   "learnedPatterns": {
-    "codePatterns": [],
-    "namingConventions": {},
-    "projectSpecificRules": []
+    "codePatterns": [
+      "Use axios interceptors to unwrap backend response format",
+      "LocalStorage fallback pattern for offline-first widgets",
+      "Glassmorphism with Tailwind: bg-white/10 backdrop-blur-lg"
+    ],
+    "namingConventions": {
+      "components": "PascalCase with Widget suffix for dashboard widgets",
+      "routes": "lowercase plural (notes, tasks, links)",
+      "types": "PascalCase interfaces in types/index.ts"
+    },
+    "projectSpecificRules": [
+      "Backend wraps responses in { data, success } format",
+      "Use better-sqlite3 synchronous API for simplicity",
+      "Vite proxy forwards /api to backend port"
+    ]
   },
-  "successfulApproaches": [],
+  "successfulApproaches": [
+    {
+      "task": "Build React frontend with 5 widget components",
+      "approach": "Created modular components with shared WidgetCard, Button, Modal. Used Tailwind for styling with custom theme. Implemented localStorage fallback for all data widgets.",
+      "agents": ["frontend-agent"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-25T10:37:00.000Z"
+    },
+    {
+      "task": "Build Express backend with SQLite database",
+      "approach": "Used better-sqlite3 for synchronous DB operations. Created separate route files for each resource. Implemented validation utilities and custom error classes.",
+      "agents": ["backend-agent"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-25T10:37:00.000Z"
+    }
+  ],
   "failedApproaches": [],
-  "agentPerformance": {},
+  "agentPerformance": {
+    "frontend-agent": {
+      "tasksCompleted": 1,
+      "successRate": 1.0,
+      "lastUsed": "2025-12-25T10:37:00.000Z"
+    },
+    "backend-agent": {
+      "tasksCompleted": 1,
+      "successRate": 1.0,
+      "lastUsed": "2025-12-25T10:37:00.000Z"
+    }
+  },
   "codebaseInsights": {
-    "hotspots": [],
+    "hotspots": [
+      "client/src/components/ - Widget components",
+      "server/src/routes/ - API endpoints"
+    ],
     "technicalDebt": []
   }
 }

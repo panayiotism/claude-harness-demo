@@ -1,33 +1,4 @@
 {
   "version": 1,
-  "features": [
-    {
-      "id": "feature-001",
-      "name": "Personal Dashboard Web Application",
-      "description": "Build a beautiful, modern Personal Dashboard with weather widget, quick notes, task manager, pomodoro timer, and quick links. Full-stack with React/TypeScript frontend and Node.js/Express/SQLite backend.",
-      "priority": 1,
-      "passes": false,
-      "verification": [
-        "Frontend builds without errors",
-        "Backend starts and responds to health check",
-        "Weather widget displays current conditions",
-        "Notes can be created, edited, and deleted",
-        "Tasks can be added, completed, and removed",
-        "Pomodoro timer counts down correctly",
-        "Quick links are customizable",
-        "Responsive design works on mobile",
-        "Data persists in SQLite database"
-      ],
-      "relatedFiles": [
-        "client/",
-        "server/",
-        "package.json"
-      ],
-      "github": {
-        "issueNumber": 1,
-        "prNumber": null,
-        "branch": "feature/feature-001"
-      }
-    }
-  ]
+  "features": []
 }
