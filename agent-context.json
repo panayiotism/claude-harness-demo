@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "lastUpdated": "2025-12-25T09:00:00.000Z",
+  "currentSession": {
+    "id": "session-20251225-090000",
+    "startedAt": "2025-12-25T09:00:00.000Z",
+    "activeFeature": "feature-001",
+    "orchestrationPhase": "implementation",
+    "activeAgents": ["frontend-agent", "backend-agent"]
+  },
+  "projectContext": {
+    "name": "claude-harness-demo",
+    "techStack": ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "SQLite", "Vite"],
+    "testingFramework": null,
+    "buildCommand": "npm run build",
+    "testCommand": null
+  },
+  "architecturalDecisions": [
+    {
+      "decision": "Monorepo structure with client/ and server/ directories",
+      "reason": "Clear separation of frontend and backend code",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-25T09:00:00.000Z"
+    },
+    {
+      "decision": "SQLite for database with better-sqlite3",
+      "reason": "Simple, file-based database perfect for personal dashboard",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-25T09:00:00.000Z"
+    }
+  ],
+  "activeConstraints": [
+    "Use Tailwind CSS for all styling",
+    "TypeScript strict mode enabled",
+    "RESTful API design for backend",
+    "Responsive mobile-first design"
+  ],
+  "sharedState": {
+    "discoveredPatterns": {},
+    "fileIndex": {
+      "components": ["client/src/components/"],
+      "apiRoutes": ["server/routes/"],
+      "tests": [],
+      "configs": ["package.json", "vite.config.ts", "tailwind.config.js", "tsconfig.json"]
+    }
+  },
+  "agentResults": [],
+  "pendingHandoffs": []
+}
