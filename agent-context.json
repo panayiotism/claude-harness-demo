@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "lastUpdated": "2025-12-25T10:37:00.000Z",
+  "currentSession": null,
+  "projectContext": {
+    "name": "claude-harness-demo",
+    "techStack": ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "SQLite", "Vite"],
+    "testingFramework": null,
+    "buildCommand": "npm run build",
+    "testCommand": null
+  },
+  "architecturalDecisions": [
+    {
+      "decision": "Monorepo structure with client/ and server/ directories",
+      "reason": "Clear separation of frontend and backend code",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-25T09:00:00.000Z"
+    },
+    {
+      "decision": "SQLite for database with better-sqlite3",
+      "reason": "Simple, file-based database perfect for personal dashboard",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-25T09:00:00.000Z"
+    },
+    {
+      "decision": "LocalStorage fallback for offline-first experience",
+      "reason": "Widgets work without backend, seamlessly sync when available",
+      "madeBy": "frontend-agent",
+      "timestamp": "2025-12-25T10:00:00.000Z"
+    },
+    {
+      "decision": "Default location for WeatherWidget instead of auto-geolocation",
+      "reason": "Avoid browser permission warnings, use London as default",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-25T10:35:00.000Z"
+    }
+  ],
+  "activeConstraints": [
+    "Use Tailwind CSS for all styling",
+    "TypeScript strict mode enabled",
+    "RESTful API design for backend",
+    "Responsive mobile-first design"
+  ],
+  "sharedState": {
+    "discoveredPatterns": {
+      "apiResponseFormat": "{ data, success } wrapper from backend",
+      "componentStructure": "Widget components with shared WidgetCard wrapper"
+    },
+    "fileIndex": {
+      "components": ["client/src/components/"],
+      "apiRoutes": ["server/src/routes/"],
+      "tests": [],
+      "configs": ["package.json", "vite.config.ts", "tailwind.config.js", "tsconfig.json"]
+    }
+  },
+  "agentResults": [],
+  "pendingHandoffs": []
+}
