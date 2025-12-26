@@ -1,11 +1,17 @@
 {
   "version": 1,
-  "lastUpdated": "2025-12-26T10:42:00.000Z",
+  "lastUpdated": "2025-12-26T12:00:00.000Z",
   "learnedPatterns": {
     "codePatterns": [
       "Use axios interceptors to unwrap backend response format",
       "LocalStorage fallback pattern for offline-first widgets",
-      "Glassmorphism with Tailwind: bg-white/10 backdrop-blur-lg"
+      "Glassmorphism with Tailwind: bg-white/10 backdrop-blur-lg",
+      "motion.dev: import { motion, AnimatePresence } from 'motion/react'",
+      "Hover micro-interactions: whileHover={{ scale: 1.02 }}",
+      "Tap feedback: whileTap={{ scale: 0.98 }}",
+      "Spring physics: transition={{ type: 'spring', stiffness: 300, damping: 20 }}",
+      "Layout animations: add layout prop to motion components",
+      "Enter/exit: wrap with AnimatePresence, use initial/animate/exit props"
     ],
     "namingConventions": {
       "components": "PascalCase with Widget suffix for dashboard widgets",
@@ -15,7 +21,10 @@
     "projectSpecificRules": [
       "Backend wraps responses in { data, success } format",
       "Use better-sqlite3 synchronous API for simplicity",
-      "Vite proxy forwards /api to backend port"
+      "Vite proxy forwards /api to backend port",
+      "Dark amber accent colors (#b45309, #d97706) with black text for contrast",
+      "Noir palette for backgrounds (noir-950 to noir-500)",
+      "Outfit font for headings, DM Sans for body text"
     ]
   },
   "successfulApproaches": [
@@ -32,6 +41,13 @@
       "agents": ["backend-agent"],
       "successRate": 1.0,
       "recordedAt": "2025-12-25T10:37:00.000Z"
+    },
+    {
+      "task": "Design revamp with motion.dev micro-interactions",
+      "approach": "Implemented Crystalline Noir design system with Outfit/DM Sans fonts, noir color palette, and dark amber accents. Added motion.dev animations to all 8 components including whileHover/whileTap, AnimatePresence for modals/lists, layout animations, and spring physics. Used black text on amber elements for contrast.",
+      "agents": ["frontend-design"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-26T12:00:00.000Z"
     }
   ],
   "failedApproaches": [],
@@ -45,12 +61,18 @@
       "tasksCompleted": 1,
       "successRate": 1.0,
       "lastUsed": "2025-12-25T10:37:00.000Z"
+    },
+    "frontend-design": {
+      "tasksCompleted": 1,
+      "successRate": 1.0,
+      "lastUsed": "2025-12-26T12:00:00.000Z"
     }
   },
   "codebaseInsights": {
     "hotspots": [
-      "client/src/components/ - Widget components",
-      "server/src/routes/ - API endpoints"
+      "client/src/components/ - Widget components with motion animations",
+      "server/src/routes/ - API endpoints",
+      "client/tailwind.config.js - Custom noir/amber theme"
     ],
     "technicalDebt": []
   }

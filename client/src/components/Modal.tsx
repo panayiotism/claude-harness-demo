@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
-import Button from './Button';
 
 interface ModalProps {
   isOpen: boolean;
@@ -26,34 +26,62 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"
-        onClick={onClose}
-      />
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-noir-950/80 backdrop-blur-md"
+            onClick={onClose}
+          />
 
-      {/* Modal */}
-      <div className="relative bg-gradient-to-br from-purple-900/95 to-pink-900/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 max-w-md w-full max-h-[90vh] overflow-hidden animate-slide-in">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/20">
-          <h3 className="text-2xl font-bold text-white bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
-            {title}
-          </h3>
-          <Button variant="ghost" size="sm" onClick={onClose} className="!p-2">
-            <X className="w-5 h-5" />
-          </Button>
-        </div>
+          {/* Modal */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            className="relative bg-noir-850 rounded-2xl shadow-crystal border border-white/[0.06] max-w-md w-full max-h-[90vh] overflow-hidden"
+          >
+            {/* Top edge highlight */}
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-        {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
-          {children}
+            {/* Corner accent */}
+            <div className="absolute top-0 left-0 w-16 h-16 overflow-hidden">
+              <div className="absolute top-0 left-0 w-px h-8 bg-gradient-to-b from-amber-400/50 to-transparent" />
+              <div className="absolute top-0 left-0 h-px w-8 bg-gradient-to-r from-amber-400/50 to-transparent" />
+            </div>
+
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-white/[0.06]">
+              <h3 className="font-display text-xl font-semibold text-white tracking-tight flex items-center gap-3">
+                <span className="w-1 h-5 bg-amber-400 rounded-full" />
+                {title}
+              </h3>
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                onClick={onClose}
+                className="p-2 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-white/60 hover:text-white transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </motion.button>
+            </div>
+
+            {/* Content */}
+            <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+              {children}
+            </div>
+          </motion.div>
         </div>
-      </div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 };
 
