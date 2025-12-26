@@ -6,7 +6,7 @@
       "name": "Design Revamp with Micro-Interactions",
       "description": "Revamp the Personal Dashboard design with a fresh, modern aesthetic using the frontend-design plugin. Add polished micro-interactions using motion.dev (motion/react) - including hover effects, tap feedback, smooth transitions, layout animations, spring physics, and scroll-triggered animations.",
       "priority": 1,
-      "passes": false,
+      "passes": true,
       "verification": [
         "All 5 widgets have updated, cohesive design",
         "Motion library installed and configured",
