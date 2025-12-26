@@ -201,35 +201,31 @@ const NotesWidget: React.FC = () => {
         }}
         title={editingNote ? 'Edit Note' : 'New Note'}
       >
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">Title</label>
+            <label className="block text-sm font-medium text-white/70 mb-2">Title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
+              className="w-full px-4 py-3 bg-white/[0.06] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50 transition-colors"
               placeholder="Note title"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">
-              Content <span className="text-white/30">(Markdown supported)</span>
+            <label className="block text-sm font-medium text-white/70 mb-2">
+              Content <span className="text-white/40">(Markdown supported)</span>
             </label>
             <textarea
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors min-h-[150px] resize-none"
+              className="w-full px-4 py-3 bg-white/[0.06] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50 transition-colors min-h-[150px] resize-none"
               placeholder="Write your note here..."
             />
           </div>
-          <div className="flex gap-3 pt-2">
-            <Button onClick={editingNote ? handleUpdate : handleAdd} className="flex-1">
-              <Save className="w-4 h-4" />
-              {editingNote ? 'Update' : 'Save'}
-            </Button>
+          <div className="flex justify-end gap-3 pt-2">
             <Button
-              variant="ghost"
+              variant="secondary"
               onClick={() => {
                 setIsModalOpen(false);
                 setEditingNote(null);
@@ -237,6 +233,10 @@ const NotesWidget: React.FC = () => {
               }}
             >
               Cancel
+            </Button>
+            <Button onClick={editingNote ? handleUpdate : handleAdd}>
+              <Save className="w-4 h-4" />
+              {editingNote ? 'Update' : 'Save'}
             </Button>
           </div>
         </div>

@@ -266,43 +266,55 @@ const QuickLinksWidget: React.FC = () => {
         }}
         title={editingLink ? 'Edit Link' : 'New Link'}
       >
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">Title</label>
+            <label className="block text-sm font-medium text-white/70 mb-2">Title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
+              className="w-full px-4 py-3 bg-white/[0.06] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50 transition-colors"
               placeholder="e.g., GitHub"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">URL</label>
+            <label className="block text-sm font-medium text-white/70 mb-2">URL</label>
             <input
               type="text"
               value={formData.url}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
+              className="w-full px-4 py-3 bg-white/[0.06] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50 transition-colors"
               placeholder="e.g., github.com"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">
-              Icon <span className="text-white/30">(emoji or leave empty)</span>
+            <label className="block text-sm font-medium text-white/70 mb-2">
+              Icon <span className="text-white/40">(emoji or leave empty)</span>
             </label>
             <input
               type="text"
               value={formData.icon}
               onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
+              className="w-full px-4 py-3 bg-white/[0.06] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50 transition-colors"
               placeholder="e.g., 🚀"
             />
           </div>
-          <Button onClick={editingLink ? handleUpdate : handleAdd} className="w-full">
-            <ExternalLink className="w-4 h-4" />
-            {editingLink ? 'Update' : 'Add'} Link
-          </Button>
+          <div className="flex justify-end gap-3 pt-2">
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setIsModalOpen(false);
+                setEditingLink(null);
+                setFormData({ title: '', url: '', icon: '' });
+              }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={editingLink ? handleUpdate : handleAdd}>
+              <ExternalLink className="w-4 h-4" />
+              {editingLink ? 'Update' : 'Add'} Link
+            </Button>
+          </div>
         </div>
       </Modal>
     </>

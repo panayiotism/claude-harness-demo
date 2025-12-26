@@ -11,7 +11,10 @@
       "Tap feedback: whileTap={{ scale: 0.98 }}",
       "Spring physics: transition={{ type: 'spring', stiffness: 300, damping: 20 }}",
       "Layout animations: add layout prop to motion components",
-      "Enter/exit: wrap with AnimatePresence, use initial/animate/exit props"
+      "Enter/exit: wrap with AnimatePresence, use initial/animate/exit props",
+      "Modal input styling: bg-white/[0.06] border-white/10 rounded-lg px-4 py-3",
+      "Focus states: focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50",
+      "Form button layout: flex justify-end gap-3 with Cancel (secondary) + Submit (primary)"
     ],
     "namingConventions": {
       "components": "PascalCase with Widget suffix for dashboard widgets",
@@ -48,6 +51,13 @@
       "agents": ["frontend-design"],
       "successRate": 1.0,
       "recordedAt": "2025-12-26T12:00:00.000Z"
+    },
+    {
+      "task": "Modal styling and UX improvements",
+      "approach": "Updated all 4 widget modals with consistent input styling (bg-white/[0.06], border-white/10, amber focus rings). Added Cancel buttons with secondary variant. Standardized form spacing to space-y-5. Fixed date input dark mode with [color-scheme:dark].",
+      "agents": ["frontend-styling-agent", "qa-testing-agent"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-26T13:25:00.000Z"
     }
   ],
   "failedApproaches": [],
