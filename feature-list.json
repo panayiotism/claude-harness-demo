@@ -1,48 +1,4 @@
 {
   "version": 1,
-  "features": [
-    {
-      "id": "feature-002",
-      "name": "Design Revamp with Micro-Interactions",
-      "description": "Revamp the Personal Dashboard design with a fresh, modern aesthetic using the frontend-design plugin. Add polished micro-interactions using motion.dev (motion/react) - including hover effects, tap feedback, smooth transitions, layout animations, spring physics, and scroll-triggered animations.",
-      "priority": 1,
-      "passes": true,
-      "verification": [
-        "All 5 widgets have updated, cohesive design",
-        "Motion library installed and configured",
-        "Hover effects on all interactive elements",
-        "Tap/click feedback on buttons and cards",
-        "Smooth transitions when switching widget states",
-        "Layout animations for list items (tasks, notes, links)",
-        "Enter/exit animations for modals and new items",
-        "Responsive design maintained on all screen sizes",
-        "No performance degradation (animations run at 60fps+)",
-        "Build completes without errors"
-      ],
-      "relatedFiles": [
-        "client/src/components/",
-        "client/src/App.tsx",
-        "client/package.json",
-        "client/tailwind.config.js"
-      ],
-      "github": {
-        "issueNumber": null,
-        "prNumber": null,
-        "branch": "feature/feature-002"
-      },
-      "technicalNotes": {
-        "library": "motion.dev (motion/react)",
-        "installation": "npm install motion",
-        "keyAPIs": [
-          "motion.div, motion.button components",
-          "whileHover, whileTap props",
-          "animate, initial, transition props",
-          "layout prop for layout animations",
-          "AnimatePresence for enter/exit animations",
-          "Spring physics for natural motion"
-        ],
-        "designApproach": "Use frontend-design plugin for distinctive, production-grade interface"
-      }
-    }
-  ]
+  "features": []
 }
