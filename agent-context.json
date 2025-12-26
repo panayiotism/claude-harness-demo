@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastUpdated": "2025-12-26T12:00:00.000Z",
+  "lastUpdated": "2025-12-26T13:30:00.000Z",
   "currentSession": null,
   "projectContext": {
     "name": "claude-harness-demo",
@@ -45,6 +45,12 @@
       "reason": "Distinctive aesthetic with Outfit/DM Sans fonts, noir palette, and amber (#b45309) accent colors with black text for contrast",
       "madeBy": "frontend-design",
       "timestamp": "2025-12-26T12:00:00.000Z"
+    },
+    {
+      "decision": "Consistent modal styling with high contrast backdrop",
+      "reason": "bg-black/90 backdrop with bg-noir-800 modal card for clear visual separation",
+      "madeBy": "frontend-styling-agent",
+      "timestamp": "2025-12-26T13:30:00.000Z"
     }
   ],
   "activeConstraints": [
@@ -60,7 +66,9 @@
       "apiResponseFormat": "{ data, success } wrapper from backend",
       "componentStructure": "Widget components with shared WidgetCard wrapper",
       "animationPattern": "motion.div with whileHover/whileTap for interactions",
-      "colorScheme": "Noir palette with dark amber (#b45309) accents"
+      "colorScheme": "Noir palette with dark amber (#b45309) accents",
+      "modalInputStyling": "bg-white/[0.06] border-white/10 with focus:ring-amber-400/50",
+      "modalBackdrop": "bg-black/90 backdrop-blur-xl for high contrast"
     },
     "fileIndex": {
       "components": ["client/src/components/"],

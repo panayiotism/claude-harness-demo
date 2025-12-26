@@ -237,7 +237,7 @@ const PomodoroWidget: React.FC = () => {
       <Modal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} title="Timer Settings">
         <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">
+            <label className="block text-sm font-medium text-white/70 mb-2">
               Work Duration
             </label>
             <div className="flex items-center gap-3">
@@ -247,7 +247,7 @@ const PomodoroWidget: React.FC = () => {
                 max="60"
                 value={workDuration}
                 onChange={(e) => setWorkDuration(parseInt(e.target.value))}
-                className="flex-1 h-1.5 bg-noir-700 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400"
+                className="flex-1 h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:shadow-glow-amber"
               />
               <span className="w-16 text-right font-display font-medium text-white">
                 {workDuration} min
@@ -255,7 +255,7 @@ const PomodoroWidget: React.FC = () => {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">
+            <label className="block text-sm font-medium text-white/70 mb-2">
               Break Duration
             </label>
             <div className="flex items-center gap-3">
@@ -265,20 +265,20 @@ const PomodoroWidget: React.FC = () => {
                 max="30"
                 value={breakDuration}
                 onChange={(e) => setBreakDuration(parseInt(e.target.value))}
-                className="flex-1 h-1.5 bg-noir-700 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-teal-400"
+                className="flex-1 h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-teal-400"
               />
               <span className="w-16 text-right font-display font-medium text-white">
                 {breakDuration} min
               </span>
             </div>
           </div>
-          <div className="flex items-center justify-between py-2">
-            <label className="text-sm font-medium text-white/60">Sound Notifications</label>
+          <div className="flex items-center justify-between py-3 px-4 bg-white/[0.04] rounded-lg border border-white/10">
+            <label className="text-sm font-medium text-white/70">Sound Notifications</label>
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setSoundEnabled(!soundEnabled)}
               className={`relative w-12 h-6 rounded-full transition-colors ${
-                soundEnabled ? 'bg-amber-400' : 'bg-noir-700'
+                soundEnabled ? 'bg-amber-400' : 'bg-white/10'
               }`}
             >
               <motion.span
@@ -290,9 +290,14 @@ const PomodoroWidget: React.FC = () => {
               />
             </motion.button>
           </div>
-          <Button onClick={handleSaveSettings} className="w-full">
-            Save Settings
-          </Button>
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsSettingsOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSaveSettings}>
+              Save Settings
+            </Button>
+          </div>
         </div>
       </Modal>
     </>

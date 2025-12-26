@@ -36,7 +36,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-noir-950/80 backdrop-blur-md"
+            className="absolute inset-0 bg-black/90 backdrop-blur-xl"
             onClick={onClose}
           />
 
@@ -46,7 +46,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-            className="relative bg-noir-850 rounded-2xl shadow-crystal border border-white/[0.06] max-w-md w-full max-h-[90vh] overflow-hidden"
+            className="relative bg-noir-800 rounded-2xl shadow-2xl border border-white/10 max-w-md w-full max-h-[90vh] overflow-hidden"
           >
             {/* Top edge highlight */}
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />

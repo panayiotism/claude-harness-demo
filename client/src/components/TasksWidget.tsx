@@ -285,19 +285,19 @@ const TasksWidget: React.FC = () => {
       </WidgetCard>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="New Task">
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">Task</label>
+            <label className="block text-sm font-medium text-white/70 mb-2">Task</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
+              className="w-full px-4 py-3 bg-white/[0.06] border border-white/10 rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50 transition-colors"
               placeholder="What needs to be done?"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">Priority</label>
+            <label className="block text-sm font-medium text-white/70 mb-2">Priority</label>
             <div className="flex gap-2">
               {(['low', 'medium', 'high'] as const).map((p) => {
                 const styles = getPriorityStyles(p);
@@ -307,10 +307,10 @@ const TasksWidget: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setFormData({ ...formData, priority: p })}
-                    className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-all ${
+                    className={`flex-1 px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${
                       formData.priority === p
                         ? styles.badge
-                        : 'border-white/[0.08] text-white/40 hover:border-white/20'
+                        : 'border-white/10 text-white/40 hover:border-white/20'
                     }`}
                   >
                     {p.charAt(0).toUpperCase() + p.slice(1)}
@@ -320,17 +320,23 @@ const TasksWidget: React.FC = () => {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/60 mb-2">Due Date</label>
+            <label className="block text-sm font-medium text-white/70 mb-2">Due Date</label>
             <input
               type="date"
               value={formData.dueDate}
               onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
+              className="w-full px-4 py-3 bg-white/[0.06] border border-white/10 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50 transition-colors [color-scheme:dark]"
             />
           </div>
-          <Button onClick={handleAdd} className="w-full">
-            Add Task
-          </Button>
+          <div className="flex justify-end gap-3 pt-2">
+            <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleAdd}>
+              <Plus className="w-4 h-4" />
+              Add Task
+            </Button>
+          </div>
         </div>
       </Modal>
     </>
