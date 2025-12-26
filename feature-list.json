@@ -1,46 +1,4 @@
 {
   "version": 1,
-  "features": [
-    {
-      "id": "feature-003",
-      "name": "Modal Styling & UX Improvements",
-      "description": "Ensure popup modals are correctly styled and inline with the Crystalline Noir design system. Improve UX with proper focus management, form validation feedback, and consistent styling across all widget modals (Notes, Tasks, Pomodoro Settings, Quick Links).",
-      "priority": 1,
-      "passes": true,
-      "verification": [
-        "All modal form inputs use consistent noir/amber styling",
-        "Form labels and placeholders are readable with proper contrast",
-        "Buttons inside modals match the app's Button component styling",
-        "Focus states are visible and accessible",
-        "Form validation provides clear feedback",
-        "Modal content is properly scrollable for long forms",
-        "Close button (X) and Escape key work correctly",
-        "Tab order is logical within modals",
-        "Mobile responsive layout works correctly",
-        "Playwright tests validate modal functionality"
-      ],
-      "relatedFiles": [
-        "client/src/components/Modal.tsx",
-        "client/src/components/NotesWidget.tsx",
-        "client/src/components/TasksWidget.tsx",
-        "client/src/components/PomodoroWidget.tsx",
-        "client/src/components/QuickLinksWidget.tsx"
-      ],
-      "github": {
-        "issueNumber": null,
-        "prNumber": null,
-        "branch": "feature/feature-003"
-      },
-      "technicalNotes": {
-        "testingApproach": "Use Playwright MCP for automated UI testing",
-        "designSystem": "Crystalline Noir with dark amber (#b45309) accents",
-        "keyUXConsiderations": [
-          "Focus trap inside modals",
-          "Clear error/success states",
-          "Consistent input styling",
-          "Smooth animations on open/close"
-        ]
-      }
-    }
-  ]
+  "features": []
 }
