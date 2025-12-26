@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Cloud, CloudRain, Sun, CloudSnow, Wind, Droplets, MapPin, RefreshCw } from 'lucide-react';
 import WidgetCard from './WidgetCard';
 import Button from './Button';
@@ -17,7 +18,6 @@ interface LocationData {
   name: string;
 }
 
-// Default location (London, UK)
 const DEFAULT_LOCATION: LocationData = {
   latitude: 51.5074,
   longitude: -0.1278,
@@ -60,7 +60,6 @@ const WeatherWidget: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Check if we have a saved location preference
     const savedLocation = localStorage.getItem('weatherLocation');
     if (savedLocation) {
       const loc = JSON.parse(savedLocation) as LocationData;
@@ -68,7 +67,6 @@ const WeatherWidget: React.FC = () => {
       setUsingGeolocation(loc.name === 'Current Location');
       fetchWeatherForLocation(loc);
     } else {
-      // Use default location
       fetchWeatherForLocation(DEFAULT_LOCATION);
     }
   }, [fetchWeatherForLocation]);
@@ -80,7 +78,7 @@ const WeatherWidget: React.FC = () => {
         navigator.geolocation.getCurrentPosition(resolve, reject, {
           enableHighAccuracy: false,
           timeout: 10000,
-          maximumAge: 300000, // 5 minutes
+          maximumAge: 300000,
         });
       });
 
@@ -98,7 +96,6 @@ const WeatherWidget: React.FC = () => {
       console.error('Geolocation error:', err);
       setError('Location access denied. Using default location.');
       setLoading(false);
-      // Fall back to default
       setTimeout(() => {
         setError(null);
         fetchWeatherForLocation(DEFAULT_LOCATION);
@@ -124,26 +121,32 @@ const WeatherWidget: React.FC = () => {
   };
 
   const getWeatherIcon = (code: number) => {
-    if (code === 0) return <Sun className="w-16 h-16 text-yellow-300" />;
-    if (code <= 3) return <Cloud className="w-16 h-16 text-gray-300" />;
-    if (code <= 69) return <CloudRain className="w-16 h-16 text-blue-300" />;
-    if (code <= 79) return <CloudSnow className="w-16 h-16 text-blue-200" />;
-    return <Wind className="w-16 h-16 text-gray-400" />;
+    const iconClass = "w-12 h-12";
+    if (code === 0) return <Sun className={`${iconClass} text-amber-400`} />;
+    if (code <= 3) return <Cloud className={`${iconClass} text-white/60`} />;
+    if (code <= 69) return <CloudRain className={`${iconClass} text-teal-400`} />;
+    if (code <= 79) return <CloudSnow className={`${iconClass} text-blue-300`} />;
+    return <Wind className={`${iconClass} text-white/40`} />;
   };
 
-  const getGradientByWeather = (code: number): string => {
-    if (code === 0) return 'from-yellow-400 via-orange-400 to-pink-400';
-    if (code <= 3) return 'from-blue-400 via-cyan-400 to-teal-400';
-    if (code <= 69) return 'from-gray-500 via-blue-500 to-blue-600';
-    if (code <= 79) return 'from-blue-300 via-purple-300 to-pink-300';
-    return 'from-gray-600 via-gray-700 to-gray-800';
+  const getWeatherGradient = (code: number): string => {
+    if (code === 0) return 'from-amber-500/20 via-amber-400/10 to-transparent';
+    if (code <= 3) return 'from-white/10 via-white/5 to-transparent';
+    if (code <= 69) return 'from-teal-500/20 via-teal-400/10 to-transparent';
+    if (code <= 79) return 'from-blue-400/20 via-blue-300/10 to-transparent';
+    return 'from-white/5 via-transparent to-transparent';
   };
 
   if (loading) {
     return (
-      <WidgetCard title="Weather" fullWidth>
-        <div className="flex items-center justify-center h-40">
-          <div className="animate-pulse-slow text-white/60">Loading weather...</div>
+      <WidgetCard title="Weather" fullWidth delay={0}>
+        <div className="flex items-center justify-center h-32">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+          >
+            <RefreshCw className="w-6 h-6 text-amber-400/60" />
+          </motion.div>
         </div>
       </WidgetCard>
     );
@@ -151,10 +154,10 @@ const WeatherWidget: React.FC = () => {
 
   if (error && !weather) {
     return (
-      <WidgetCard title="Weather" fullWidth>
-        <div className="flex flex-col items-center justify-center h-40 gap-4">
-          <div className="text-red-300">{error}</div>
-          <Button onClick={() => fetchWeatherForLocation(DEFAULT_LOCATION)} size="sm">
+      <WidgetCard title="Weather" fullWidth delay={0}>
+        <div className="flex flex-col items-center justify-center h-32 gap-4">
+          <p className="text-red-400 text-sm">{error}</p>
+          <Button onClick={() => fetchWeatherForLocation(DEFAULT_LOCATION)} size="sm" variant="secondary">
             <RefreshCw className="w-4 h-4" />
             Retry
           </Button>
@@ -166,59 +169,96 @@ const WeatherWidget: React.FC = () => {
   if (!weather) return null;
 
   return (
-    <WidgetCard title="Weather" fullWidth>
-      <div className={`bg-gradient-to-r ${getGradientByWeather(weather.weatherCode)} rounded-xl p-8 shadow-lg`}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div className="animate-pulse-slow">
-              {getWeatherIcon(weather.weatherCode)}
-            </div>
-            <div>
-              <div className="text-6xl font-bold text-white mb-2">
-                {weather.temperature}°C
-              </div>
-              <div className="text-xl text-white/90 font-medium">
-                {weather.conditions}
-              </div>
-              <div className="text-sm text-white/70 mt-1 flex items-center gap-1">
-                <MapPin className="w-3 h-3" />
-                {weather.location}
-              </div>
-            </div>
-          </div>
-          <div className="text-right space-y-3">
-            <div className="flex items-center gap-2 text-white/90">
-              <Droplets className="w-5 h-5" />
-              <span className="text-lg">{weather.humidity}%</span>
-            </div>
-            <div className="text-sm text-white/70">Humidity</div>
-            <div className="flex gap-2 mt-4">
-              {!usingGeolocation && (
-                <button
-                  onClick={requestGeolocation}
-                  className="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded transition-colors"
-                  title="Use my location"
-                >
-                  <MapPin className="w-3 h-3 inline mr-1" />
-                  Use My Location
-                </button>
-              )}
-              {usingGeolocation && (
-                <button
-                  onClick={resetToDefault}
-                  className="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded transition-colors"
-                  title="Reset to default"
-                >
-                  Reset
-                </button>
-              )}
-              <button
-                onClick={() => fetchWeatherForLocation(location)}
-                className="text-xs bg-white/20 hover:bg-white/30 px-2 py-1 rounded transition-colors"
-                title="Refresh weather"
+    <WidgetCard title="Weather" fullWidth delay={0}>
+      <div className="relative overflow-hidden rounded-xl bg-noir-800/50 border border-white/[0.04]">
+        {/* Ambient gradient background */}
+        <div className={`absolute inset-0 bg-gradient-to-br ${getWeatherGradient(weather.weatherCode)}`} />
+
+        <div className="relative p-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-6">
+              {/* Weather Icon with animation */}
+              <motion.div
+                animate={{
+                  y: [0, -4, 0],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                className="relative"
               >
-                <RefreshCw className="w-3 h-3" />
-              </button>
+                {getWeatherIcon(weather.weatherCode)}
+                {/* Glow effect */}
+                <div className="absolute inset-0 blur-xl opacity-30">
+                  {getWeatherIcon(weather.weatherCode)}
+                </div>
+              </motion.div>
+
+              <div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={weather.temperature}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="flex items-start gap-1"
+                  >
+                    <span className="font-display text-5xl font-bold text-white tracking-tight">
+                      {weather.temperature}
+                    </span>
+                    <span className="text-white/40 text-xl mt-1">°C</span>
+                  </motion.div>
+                </AnimatePresence>
+                <p className="text-white/60 font-medium mt-1">{weather.conditions}</p>
+                <p className="text-white/40 text-sm flex items-center gap-1.5 mt-0.5">
+                  <MapPin className="w-3 h-3" />
+                  {weather.location}
+                </p>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="flex flex-col items-end gap-3">
+              <div className="flex items-center gap-2 text-white/60">
+                <Droplets className="w-4 h-4 text-teal-400" />
+                <span className="font-display text-lg font-medium text-white">{weather.humidity}%</span>
+              </div>
+              <span className="text-white/40 text-xs">Humidity</span>
+
+              {/* Action buttons */}
+              <div className="flex gap-2 mt-2">
+                {!usingGeolocation ? (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={requestGeolocation}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white/60 hover:text-white transition-colors flex items-center gap-1.5"
+                  >
+                    <MapPin className="w-3 h-3" />
+                    Use My Location
+                  </motion.button>
+                ) : (
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={resetToDefault}
+                    className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white/60 hover:text-white transition-colors"
+                  >
+                    Reset
+                  </motion.button>
+                )}
+                <motion.button
+                  whileHover={{ scale: 1.05, rotate: 180 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  onClick={() => fetchWeatherForLocation(location)}
+                  className="p-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white/60 hover:text-white transition-colors"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                </motion.button>
+              </div>
             </div>
           </div>
         </div>

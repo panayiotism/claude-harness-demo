@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, ExternalLink, Edit2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Plus, Trash2, ExternalLink, Edit2, Link } from 'lucide-react';
 import WidgetCard from './WidgetCard';
 import Button from './Button';
 import Modal from './Modal';
@@ -27,7 +28,6 @@ const QuickLinksWidget: React.FC = () => {
       if (stored) {
         setLinks(JSON.parse(stored));
       } else {
-        // Set default links
         const defaultLinks: QuickLink[] = [
           {
             id: '1',
@@ -67,7 +67,6 @@ const QuickLinksWidget: React.FC = () => {
   const handleAdd = async () => {
     if (!formData.title.trim() || !formData.url.trim()) return;
 
-    // Ensure URL has protocol
     let url = formData.url;
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       url = 'https://' + url;
@@ -164,56 +163,96 @@ const QuickLinksWidget: React.FC = () => {
 
   return (
     <>
-      <WidgetCard title="Quick Links">
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          {links.map((link, index) => (
-            <div
-              key={link.id}
-              className="group relative bg-white/10 hover:bg-white/20 rounded-lg p-4 transition-all duration-200 border border-white/10 hover:scale-105 cursor-pointer animate-slide-in"
-              style={{ animationDelay: `${index * 50}ms` }}
-            >
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center gap-2 text-center"
-              >
-                <div className="text-3xl">
-                  {link.icon || (
-                    <img src={getFavicon(link.url)} alt="" className="w-8 h-8" onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none';
-                    }} />
-                  )}
-                </div>
-                <div className="text-sm font-medium text-white truncate w-full">{link.title}</div>
-              </a>
+      <WidgetCard title="Quick Links" delay={4}>
+        {links.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-8"
+          >
+            <Link className="w-10 h-10 text-white/20 mx-auto mb-3" />
+            <p className="text-white/40 text-sm">No links yet</p>
+          </motion.div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            <AnimatePresence mode="popLayout">
+              {links.map((link, index) => (
+                <motion.div
+                  key={link.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.15 } }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 300,
+                    damping: 25,
+                    delay: index * 0.05
+                  }}
+                  whileHover={{ y: -2 }}
+                  className="group relative"
+                >
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block bg-noir-800/50 hover:bg-noir-700/50 rounded-xl p-4 border border-white/[0.04] hover:border-amber-400/20 transition-all"
+                  >
+                    <div className="flex flex-col items-center gap-2 text-center">
+                      <motion.span
+                        whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+                        transition={{ duration: 0.3 }}
+                        className="text-2xl"
+                      >
+                        {link.icon || (
+                          <img
+                            src={getFavicon(link.url)}
+                            alt=""
+                            className="w-6 h-6"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                        )}
+                      </motion.span>
+                      <span className="text-sm font-medium text-white truncate w-full">
+                        {link.title}
+                      </span>
+                    </div>
+                  </a>
 
-              {/* Action buttons on hover */}
-              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    openEditModal(link);
-                  }}
-                  className="p-1 bg-blue-500/80 hover:bg-blue-500 rounded text-white"
-                >
-                  <Edit2 className="w-3 h-3" />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleDelete(link.id);
-                  }}
-                  className="p-1 bg-red-500/80 hover:bg-red-500 rounded text-white"
-                >
-                  <Trash2 className="w-3 h-3" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+                  {/* Hover actions */}
+                  <div className="absolute top-1.5 right-1.5 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        openEditModal(link);
+                      }}
+                      className="p-1 rounded-md bg-noir-900/80 hover:bg-amber-400/20 text-white/40 hover:text-amber-400 transition-colors"
+                    >
+                      <Edit2 className="w-3 h-3" />
+                    </motion.button>
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDelete(link.id);
+                      }}
+                      className="p-1 rounded-md bg-noir-900/80 hover:bg-red-500/20 text-white/40 hover:text-red-400 transition-colors"
+                    >
+                      <Trash2 className="w-3 h-3" />
+                    </motion.button>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
         <Button onClick={openAddModal} className="w-full">
-          <Plus className="w-5 h-5" />
+          <Plus className="w-4 h-4" />
           Add Link
         </Button>
       </WidgetCard>
@@ -225,38 +264,38 @@ const QuickLinksWidget: React.FC = () => {
           setEditingLink(null);
           setFormData({ title: '', url: '', icon: '' });
         }}
-        title={editingLink ? 'Edit Link' : 'Add Link'}
+        title={editingLink ? 'Edit Link' : 'New Link'}
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">Title</label>
+            <label className="block text-sm font-medium text-white/60 mb-2">Title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
               placeholder="e.g., GitHub"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">URL</label>
+            <label className="block text-sm font-medium text-white/60 mb-2">URL</label>
             <input
               type="text"
               value={formData.url}
               onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
               placeholder="e.g., github.com"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">
-              Icon (emoji or leave empty for favicon)
+            <label className="block text-sm font-medium text-white/60 mb-2">
+              Icon <span className="text-white/30">(emoji or leave empty)</span>
             </label>
             <input
               type="text"
               value={formData.icon}
               onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
               placeholder="e.g., 🚀"
             />
           </div>

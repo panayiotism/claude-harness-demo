@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Edit2, Save, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Plus, Trash2, Edit2, Save, FileText } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import WidgetCard from './WidgetCard';
 import Button from './Button';
@@ -20,12 +21,10 @@ const NotesWidget: React.FC = () => {
 
   const loadNotes = async () => {
     try {
-      // Try API first
       const apiNotes = await notesApi.getAll();
       setNotes(apiNotes);
       setUseLocalStorage(false);
     } catch (error) {
-      // Fallback to localStorage
       const stored = localStorage.getItem('notes');
       if (stored) {
         setNotes(JSON.parse(stored));
@@ -120,48 +119,75 @@ const NotesWidget: React.FC = () => {
 
   return (
     <>
-      <WidgetCard title="Notes">
-        <div className="space-y-3 max-h-96 overflow-y-auto">
+      <WidgetCard title="Notes" delay={1}>
+        <div className="space-y-3 max-h-80 overflow-y-auto pr-1">
           {notes.length === 0 ? (
-            <div className="text-center py-8 text-white/60">
-              No notes yet. Click the button below to add one!
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-8"
+            >
+              <FileText className="w-10 h-10 text-white/20 mx-auto mb-3" />
+              <p className="text-white/40 text-sm">No notes yet</p>
+              <p className="text-white/30 text-xs mt-1">Click below to add your first note</p>
+            </motion.div>
           ) : (
-            notes.map((note, index) => (
-              <div
-                key={note.id}
-                className="bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-200 animate-slide-in border border-white/10"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-lg text-white">{note.title}</h3>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => openEditModal(note)}
-                      className="text-blue-300 hover:text-blue-200 transition-colors"
-                    >
-                      <Edit2 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(note.id)}
-                      className="text-red-300 hover:text-red-200 transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+            <AnimatePresence mode="popLayout">
+              {notes.map((note, index) => (
+                <motion.div
+                  key={note.id}
+                  layout
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, x: -20, transition: { duration: 0.2 } }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 300,
+                    damping: 25,
+                    delay: index * 0.05
+                  }}
+                  whileHover={{ x: 4 }}
+                  className="group relative bg-noir-800/50 rounded-xl p-4 border border-white/[0.04] hover:border-amber-400/20 transition-colors"
+                >
+                  {/* Left accent */}
+                  <div className="absolute left-0 top-3 bottom-3 w-0.5 bg-gradient-to-b from-amber-400/50 via-amber-400/20 to-transparent rounded-full" />
+
+                  <div className="flex justify-between items-start gap-3 pl-3">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-display font-medium text-white truncate">{note.title}</h3>
+                      <div className="prose-noir text-sm mt-2 line-clamp-2">
+                        <ReactMarkdown>{note.content}</ReactMarkdown>
+                      </div>
+                      <p className="text-white/30 text-xs mt-2">
+                        {new Date(note.updatedAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => openEditModal(note)}
+                        className="p-1.5 rounded-lg bg-white/[0.04] hover:bg-amber-400/20 text-white/40 hover:text-amber-400 transition-colors"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => handleDelete(note.id)}
+                        className="p-1.5 rounded-lg bg-white/[0.04] hover:bg-red-500/20 text-white/40 hover:text-red-400 transition-colors"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </motion.button>
+                    </div>
                   </div>
-                </div>
-                <div className="prose prose-invert prose-sm max-w-none text-white/80">
-                  <ReactMarkdown>{note.content}</ReactMarkdown>
-                </div>
-                <div className="text-xs text-white/50 mt-2">
-                  {new Date(note.updatedAt).toLocaleDateString()}
-                </div>
-              </div>
-            ))
+                </motion.div>
+              ))}
+            </AnimatePresence>
           )}
         </div>
         <Button onClick={openAddModal} className="w-full mt-4">
-          <Plus className="w-5 h-5" />
+          <Plus className="w-4 h-4" />
           Add Note
         </Button>
       </WidgetCard>
@@ -173,29 +199,31 @@ const NotesWidget: React.FC = () => {
           setEditingNote(null);
           setFormData({ title: '', content: '' });
         }}
-        title={editingNote ? 'Edit Note' : 'Add Note'}
+        title={editingNote ? 'Edit Note' : 'New Note'}
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">Title</label>
+            <label className="block text-sm font-medium text-white/60 mb-2">Title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors"
               placeholder="Note title"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">Content (Markdown supported)</label>
+            <label className="block text-sm font-medium text-white/60 mb-2">
+              Content <span className="text-white/30">(Markdown supported)</span>
+            </label>
             <textarea
               value={formData.content}
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-[150px]"
+              className="w-full px-4 py-2.5 bg-noir-800 border border-white/[0.08] rounded-lg text-white placeholder-white/30 focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/20 transition-colors min-h-[150px] resize-none"
               placeholder="Write your note here..."
             />
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 pt-2">
             <Button onClick={editingNote ? handleUpdate : handleAdd} className="flex-1">
               <Save className="w-4 h-4" />
               {editingNote ? 'Update' : 'Save'}
@@ -208,7 +236,6 @@ const NotesWidget: React.FC = () => {
                 setFormData({ title: '', content: '' });
               }}
             >
-              <X className="w-4 h-4" />
               Cancel
             </Button>
           </div>

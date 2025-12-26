@@ -1,10 +1,16 @@
 {
   "version": 1,
-  "lastUpdated": "2025-12-26T10:42:00.000Z",
-  "currentSession": null,
+  "lastUpdated": "2025-12-26T11:10:00.000Z",
+  "currentSession": {
+    "id": "session-20251226-1110",
+    "startedAt": "2025-12-26T11:10:00.000Z",
+    "activeFeature": "feature-002",
+    "orchestrationPhase": "implementation",
+    "activeAgents": ["frontend-design"]
+  },
   "projectContext": {
     "name": "claude-harness-demo",
-    "techStack": ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "SQLite", "Vite"],
+    "techStack": ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "SQLite", "Vite", "motion.dev"],
     "testingFramework": null,
     "buildCommand": "npm run build",
     "testCommand": null
@@ -33,13 +39,20 @@
       "reason": "Avoid browser permission warnings, use London as default",
       "madeBy": "orchestrator",
       "timestamp": "2025-12-25T10:35:00.000Z"
+    },
+    {
+      "decision": "Use motion.dev for micro-interactions",
+      "reason": "Production-ready React animation library with 120fps GPU-accelerated animations, gesture support, and spring physics",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-26T11:00:00.000Z"
     }
   ],
   "activeConstraints": [
     "Use Tailwind CSS for all styling",
     "TypeScript strict mode enabled",
     "RESTful API design for backend",
-    "Responsive mobile-first design"
+    "Responsive mobile-first design",
+    "Use motion.dev for all animations and micro-interactions"
   ],
   "sharedState": {
     "discoveredPatterns": {
@@ -51,6 +64,14 @@
       "apiRoutes": ["server/src/routes/"],
       "tests": [],
       "configs": ["package.json", "vite.config.ts", "tailwind.config.js", "tsconfig.json"]
+    },
+    "motionPatterns": {
+      "import": "import { motion, AnimatePresence } from 'motion/react'",
+      "hoverEffect": "whileHover={{ scale: 1.02 }}",
+      "tapEffect": "whileTap={{ scale: 0.98 }}",
+      "springTransition": "transition={{ type: 'spring', stiffness: 300, damping: 20 }}",
+      "layoutAnimation": "layout prop for automatic layout animations",
+      "enterExitAnimation": "AnimatePresence with initial, animate, exit props"
     }
   },
   "agentResults": [],

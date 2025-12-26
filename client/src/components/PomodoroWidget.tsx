@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Play, Pause, RotateCcw, Settings, Volume2, VolumeX } from 'lucide-react';
 import WidgetCard from './WidgetCard';
 import Button from './Button';
@@ -57,7 +58,6 @@ const PomodoroWidget: React.FC = () => {
   };
 
   const playSound = () => {
-    // Create a simple beep sound
     const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
     const oscillator = audioContext.createOscillator();
     const gainNode = audioContext.createGain();
@@ -94,129 +94,201 @@ const PomodoroWidget: React.FC = () => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const progress = mode === 'work'
-    ? ((workDuration * 60 - timeLeft) / (workDuration * 60)) * 100
-    : ((breakDuration * 60 - timeLeft) / (breakDuration * 60)) * 100;
+  const totalSeconds = mode === 'work' ? workDuration * 60 : breakDuration * 60;
+  const progress = ((totalSeconds - timeLeft) / totalSeconds) * 100;
+  const circumference = 2 * Math.PI * 88;
+  const strokeDashoffset = circumference * (1 - progress / 100);
 
   return (
     <>
-      <WidgetCard title="Pomodoro Timer">
-        <div className="flex flex-col items-center space-y-6">
+      <WidgetCard title="Pomodoro" delay={3}>
+        <div className="flex flex-col items-center">
           {/* Timer Display */}
-          <div className="relative w-48 h-48">
-            {/* Background Circle */}
-            <svg className="w-full h-full transform -rotate-90">
+          <div className="relative w-48 h-48 mb-6">
+            {/* Background circle */}
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 192 192">
               <circle
                 cx="96"
                 cy="96"
                 r="88"
-                stroke="rgba(255,255,255,0.1)"
-                strokeWidth="8"
+                stroke="currentColor"
+                strokeWidth="4"
                 fill="none"
+                className="text-noir-700"
               />
-              {/* Progress Circle */}
-              <circle
+              {/* Progress circle */}
+              <motion.circle
                 cx="96"
                 cy="96"
                 r="88"
-                stroke={mode === 'work' ? '#a78bfa' : '#34d399'}
-                strokeWidth="8"
+                stroke="currentColor"
+                strokeWidth="4"
                 fill="none"
                 strokeLinecap="round"
-                strokeDasharray={`${2 * Math.PI * 88}`}
-                strokeDashoffset={`${2 * Math.PI * 88 * (1 - progress / 100)}`}
-                className="transition-all duration-1000 ease-linear"
+                strokeDasharray={circumference}
+                initial={{ strokeDashoffset: circumference }}
+                animate={{ strokeDashoffset }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+                className={mode === 'work' ? 'text-amber-400' : 'text-teal-400'}
               />
             </svg>
-            {/* Time Text */}
+
+            {/* Center content */}
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="text-4xl font-bold text-white">{formatTime(timeLeft)}</div>
-              <div className={`text-sm font-medium mt-2 ${mode === 'work' ? 'text-purple-300' : 'text-green-300'}`}>
-                {mode === 'work' ? 'Work Time' : 'Break Time'}
-              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={timeLeft}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.1 }}
+                  transition={{ duration: 0.15 }}
+                  className="font-display text-4xl font-bold text-white tracking-tight"
+                >
+                  {formatTime(timeLeft)}
+                </motion.div>
+              </AnimatePresence>
+              <motion.div
+                key={mode}
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`text-xs font-medium mt-1 ${
+                  mode === 'work' ? 'text-amber-400' : 'text-teal-400'
+                }`}
+              >
+                {mode === 'work' ? 'Focus Time' : 'Break Time'}
+              </motion.div>
             </div>
+
+            {/* Pulsing glow when running */}
+            {isRunning && (
+              <motion.div
+                className={`absolute inset-0 rounded-full ${
+                  mode === 'work' ? 'bg-amber-400' : 'bg-teal-400'
+                }`}
+                initial={{ opacity: 0.1, scale: 1 }}
+                animate={{ opacity: [0.1, 0.2, 0.1], scale: [1, 1.02, 1] }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                style={{ filter: 'blur(30px)', zIndex: -1 }}
+              />
+            )}
           </div>
 
           {/* Controls */}
-          <div className="flex gap-3">
+          <div className="flex items-center gap-2 mb-6">
             {!isRunning ? (
-              <Button onClick={handleStart}>
+              <Button onClick={handleStart} size="lg">
                 <Play className="w-5 h-5" />
                 Start
               </Button>
             ) : (
-              <Button onClick={handlePause} variant="secondary">
+              <Button onClick={handlePause} variant="secondary" size="lg">
                 <Pause className="w-5 h-5" />
                 Pause
               </Button>
             )}
-            <Button onClick={handleReset} variant="ghost">
+            <motion.button
+              whileHover={{ scale: 1.05, rotate: -15 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleReset}
+              className="p-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-white/60 hover:text-white transition-colors"
+            >
               <RotateCcw className="w-5 h-5" />
-              Reset
-            </Button>
-            <Button onClick={() => setIsSettingsOpen(true)} variant="ghost">
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsSettingsOpen(true)}
+              className="p-3 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-white/60 hover:text-white transition-colors"
+            >
               <Settings className="w-5 h-5" />
-            </Button>
+            </motion.button>
           </div>
 
-          {/* Stats */}
-          <div className="flex items-center gap-6 text-center">
-            <div>
-              <div className="text-2xl font-bold text-white">{sessions}</div>
-              <div className="text-xs text-white/60">Sessions</div>
+          {/* Stats row */}
+          <div className="flex items-center gap-6">
+            <div className="text-center">
+              <motion.div
+                key={sessions}
+                initial={{ scale: 1.2 }}
+                animate={{ scale: 1 }}
+                className="font-display text-2xl font-bold text-white"
+              >
+                {sessions}
+              </motion.div>
+              <div className="text-xs text-white/40 mt-0.5">Sessions</div>
             </div>
-            <button
+            <div className="w-px h-8 bg-white/10" />
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className="text-white/60 hover:text-white transition-colors"
+              className={`p-2 rounded-lg transition-colors ${
+                soundEnabled
+                  ? 'text-amber-400 bg-amber-400/10'
+                  : 'text-white/40 bg-white/[0.04]'
+              }`}
             >
-              {soundEnabled ? <Volume2 className="w-6 h-6" /> : <VolumeX className="w-6 h-6" />}
-            </button>
+              {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+            </motion.button>
           </div>
         </div>
       </WidgetCard>
 
       <Modal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} title="Timer Settings">
-        <div className="space-y-4">
+        <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">
-              Work Duration (minutes)
+            <label className="block text-sm font-medium text-white/60 mb-2">
+              Work Duration
             </label>
-            <input
-              type="number"
-              min="1"
-              max="60"
-              value={workDuration}
-              onChange={(e) => setWorkDuration(parseInt(e.target.value) || 25)}
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
+            <div className="flex items-center gap-3">
+              <input
+                type="range"
+                min="5"
+                max="60"
+                value={workDuration}
+                onChange={(e) => setWorkDuration(parseInt(e.target.value))}
+                className="flex-1 h-1.5 bg-noir-700 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400"
+              />
+              <span className="w-16 text-right font-display font-medium text-white">
+                {workDuration} min
+              </span>
+            </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">
-              Break Duration (minutes)
+            <label className="block text-sm font-medium text-white/60 mb-2">
+              Break Duration
             </label>
-            <input
-              type="number"
-              min="1"
-              max="30"
-              value={breakDuration}
-              onChange={(e) => setBreakDuration(parseInt(e.target.value) || 5)}
-              className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
+            <div className="flex items-center gap-3">
+              <input
+                type="range"
+                min="1"
+                max="30"
+                value={breakDuration}
+                onChange={(e) => setBreakDuration(parseInt(e.target.value))}
+                className="flex-1 h-1.5 bg-noir-700 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-teal-400"
+              />
+              <span className="w-16 text-right font-display font-medium text-white">
+                {breakDuration} min
+              </span>
+            </div>
           </div>
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-white/80">Sound Notifications</label>
-            <button
+          <div className="flex items-center justify-between py-2">
+            <label className="text-sm font-medium text-white/60">Sound Notifications</label>
+            <motion.button
+              whileTap={{ scale: 0.95 }}
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                soundEnabled ? 'bg-purple-500' : 'bg-white/20'
+              className={`relative w-12 h-6 rounded-full transition-colors ${
+                soundEnabled ? 'bg-amber-400' : 'bg-noir-700'
               }`}
             >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  soundEnabled ? 'translate-x-6' : 'translate-x-1'
+              <motion.span
+                layout
+                transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+                className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow-sm ${
+                  soundEnabled ? 'left-7' : 'left-1'
                 }`}
               />
-            </button>
+            </motion.button>
           </div>
           <Button onClick={handleSaveSettings} className="w-full">
             Save Settings
