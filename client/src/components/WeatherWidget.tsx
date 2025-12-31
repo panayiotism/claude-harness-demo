@@ -357,7 +357,7 @@ const WeatherWidget: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-noir-900/80 backdrop-blur-sm rounded-xl z-10"
+              className="absolute inset-x-0 top-0 min-h-full bg-noir-900/80 backdrop-blur-sm rounded-xl z-10"
             >
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
