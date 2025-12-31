@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastUpdated": "2025-12-26T12:00:00.000Z",
+  "lastUpdated": "2025-12-31T12:00:00.000Z",
   "learnedPatterns": {
     "codePatterns": [
       "Use axios interceptors to unwrap backend response format",
@@ -14,7 +14,9 @@
       "Enter/exit: wrap with AnimatePresence, use initial/animate/exit props",
       "Modal input styling: bg-white/[0.06] border-white/10 rounded-lg px-4 py-3",
       "Focus states: focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50",
-      "Form button layout: flex justify-end gap-3 with Cancel (secondary) + Submit (primary)"
+      "Form button layout: flex justify-end gap-3 with Cancel (secondary) + Submit (primary)",
+      "React Portal: Use createPortal(content, document.body) for modals to avoid transform issues",
+      "Debounced search: useEffect with setTimeout(300ms) for API calls"
     ],
     "namingConventions": {
       "components": "PascalCase with Widget suffix for dashboard widgets",
@@ -58,6 +60,13 @@
       "agents": ["frontend-styling-agent", "qa-testing-agent"],
       "successRate": 1.0,
       "recordedAt": "2025-12-26T13:25:00.000Z"
+    },
+    {
+      "task": "Manual city entry for Weather Widget",
+      "approach": "Used existing Modal component with React Portal. Integrated Open-Meteo geocoding API with debounced search (300ms). Stored selected city in localStorage. Fixed modal flickering by using createPortal to render at document.body level.",
+      "agents": ["claude-code"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-31T12:00:00.000Z"
     }
   ],
   "failedApproaches": [],
@@ -76,6 +85,11 @@
       "tasksCompleted": 1,
       "successRate": 1.0,
       "lastUsed": "2025-12-26T12:00:00.000Z"
+    },
+    "claude-code": {
+      "tasksCompleted": 1,
+      "successRate": 1.0,
+      "lastUsed": "2025-12-31T12:00:00.000Z"
     }
   },
   "codebaseInsights": {

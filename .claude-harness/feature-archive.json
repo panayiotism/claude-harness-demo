@@ -115,6 +115,42 @@
         ]
       },
       "archivedAt": "2025-12-26T13:30:00.000Z"
+    },
+    {
+      "id": "feature-004",
+      "name": "Manual City Entry for Weather Widget",
+      "description": "Add manual city entry functionality to the Weather Widget, allowing users to type in a city name and get weather data for that location. Uses Open-Meteo geocoding API.",
+      "priority": 1,
+      "passes": true,
+      "verification": [
+        "Text input for city name is visible and styled consistently",
+        "Users can type a city name and search for weather",
+        "Geocoding API returns valid coordinates for the city",
+        "Weather data displays correctly for the selected city",
+        "Selected city persists across page refreshes",
+        "Invalid city names show appropriate error message",
+        "Build completes without errors",
+        "TypeScript type checking passes"
+      ],
+      "relatedFiles": [
+        "client/src/components/WeatherWidget.tsx",
+        "client/src/components/Modal.tsx",
+        "client/src/components/WidgetCard.tsx"
+      ],
+      "github": {
+        "issueNumber": 3,
+        "prNumber": 4,
+        "branch": "feature/feature-004"
+      },
+      "technicalNotes": {
+        "geocodingAPI": "Open-Meteo geocoding (https://geocoding-api.open-meteo.com/v1/search)",
+        "keyImplementation": [
+          "Debounced search input (300ms)",
+          "React Portal for modal stability",
+          "localStorage persistence for selected city"
+        ]
+      },
+      "archivedAt": "2025-12-31T12:00:00.000Z"
     }
   ]
 }

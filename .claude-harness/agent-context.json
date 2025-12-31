@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastUpdated": "2025-12-31T11:39:00.000Z",
+  "lastUpdated": "2025-12-31T12:00:00.000Z",
   "currentSession": null,
   "projectContext": {
     "name": "claude-harness-demo",
@@ -51,6 +51,12 @@
       "reason": "bg-black/90 backdrop with bg-noir-800 modal card for clear visual separation",
       "madeBy": "frontend-styling-agent",
       "timestamp": "2025-12-26T13:30:00.000Z"
+    },
+    {
+      "decision": "Use React Portal for Modal component",
+      "reason": "Prevents fixed positioning issues caused by parent transforms (whileHover animations)",
+      "madeBy": "claude-code",
+      "timestamp": "2025-12-31T12:00:00.000Z"
     }
   ],
   "activeConstraints": [
@@ -68,7 +74,8 @@
       "animationPattern": "motion.div with whileHover/whileTap for interactions",
       "colorScheme": "Noir palette with dark amber (#b45309) accents",
       "modalInputStyling": "bg-white/[0.06] border-white/10 with focus:ring-amber-400/50",
-      "modalBackdrop": "bg-black/90 backdrop-blur-xl for high contrast"
+      "modalBackdrop": "bg-black/90 backdrop-blur-xl for high contrast",
+      "modalPortal": "Use createPortal to render modals at document.body"
     },
     "fileIndex": {
       "components": ["client/src/components/"],
