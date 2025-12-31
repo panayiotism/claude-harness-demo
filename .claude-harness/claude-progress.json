@@ -1,41 +1,37 @@
 {
-  "lastUpdated": "2025-12-26T13:30:00.000Z",
+  "lastUpdated": "2025-12-31T12:00:00.000Z",
   "currentProject": "claude-harness-demo",
   "lastSession": {
-    "summary": "Modal styling and UX improvements - consistent input styling, better contrast, improved backdrop",
+    "summary": "Implemented manual city entry for Weather Widget with search modal and geocoding API integration",
     "completedTasks": [
-      "Created feature-003 for Modal Styling & UX Improvements",
-      "Updated all 4 widget modals with consistent input styling (bg-white/[0.06], border-white/10)",
-      "Added amber focus rings (focus:ring-2 focus:ring-amber-400/50) to all inputs",
-      "Standardized form spacing to space-y-5 across all modals",
-      "Added Cancel buttons with secondary variant to all modals",
-      "Fixed date input dark mode styling with [color-scheme:dark]",
-      "Improved modal backdrop opacity (bg-black/90) for better contrast",
-      "Enhanced modal card visibility with lighter background (bg-noir-800)",
-      "Increased modal border visibility (border-white/10)",
-      "Added stronger shadow (shadow-2xl) and blur (backdrop-blur-xl)",
-      "Verified all changes with QA testing agent",
-      "Build passes without TypeScript errors"
+      "Created feature-004 for Manual City Entry",
+      "Added city search functionality using Open-Meteo geocoding API",
+      "Implemented debounced search input with dropdown results",
+      "Used existing Modal component for search UI",
+      "Fixed modal flickering by adding React Portal (createPortal)",
+      "Added allowOverflow prop to WidgetCard for extensibility",
+      "Selected city persists to localStorage",
+      "Verified with Playwright MCP - all tests passed",
+      "Build and TypeScript checks pass"
     ],
     "blockers": [],
     "nextSteps": [
-      "Add focus trap for better accessibility",
-      "Add form validation feedback",
-      "Test on mobile devices",
-      "Add unit tests for modal components"
+      "Add keyboard navigation for search results",
+      "Add loading skeleton for weather data",
+      "Consider adding recent/favorite cities feature"
     ]
   },
   "recentChanges": [
-    "client/src/components/Modal.tsx - Improved backdrop and card contrast",
-    "client/src/components/NotesWidget.tsx - Consistent modal form styling",
-    "client/src/components/TasksWidget.tsx - Consistent modal form styling",
-    "client/src/components/PomodoroWidget.tsx - Consistent modal form styling",
-    "client/src/components/QuickLinksWidget.tsx - Consistent modal form styling"
+    "client/src/components/WeatherWidget.tsx - Added city search with Modal",
+    "client/src/components/Modal.tsx - Added React Portal for stable positioning",
+    "client/src/components/WidgetCard.tsx - Added allowOverflow prop"
   ],
-  "knownIssues": [],
+  "knownIssues": [
+    "ESLint config missing from project (pre-existing)"
+  ],
   "environmentState": {
-    "devServerRunning": true,
-    "lastSuccessfulBuild": "2025-12-26T13:30:00.000Z",
-    "lastTypeCheck": "2025-12-26T13:30:00.000Z"
+    "devServerRunning": false,
+    "lastSuccessfulBuild": "2025-12-31T12:00:00.000Z",
+    "lastTypeCheck": "2025-12-31T12:00:00.000Z"
   }
 }

@@ -1,10 +1,28 @@
 {
   "version": 1,
-  "lastUpdated": null,
-  "activeFeature": null,
-  "summary": null,
-  "workingFiles": {},
-  "decisions": [],
-  "codebaseUnderstanding": {},
-  "nextSteps": []
+  "lastUpdated": "2025-12-31T12:00:00.000Z",
+  "activeFeature": "feature-004",
+  "summary": "Manual City Entry for Weather Widget",
+  "workingFiles": {
+    "client/src/components/WeatherWidget.tsx": "modified - added city search with Modal, geocoding API",
+    "client/src/components/Modal.tsx": "modified - added React Portal for stable positioning",
+    "client/src/components/WidgetCard.tsx": "modified - added allowOverflow prop"
+  },
+  "decisions": [
+    "Use existing Modal component instead of inline overlay",
+    "Use React Portal (createPortal) to prevent transform-related flickering",
+    "Use Open-Meteo geocoding API for city search (free, no API key)",
+    "Debounce search input (300ms) to reduce API calls",
+    "Store selected city in localStorage for persistence"
+  ],
+  "codebaseUnderstanding": {
+    "modalSystem": "Modal component uses fixed positioning, now with Portal to body",
+    "widgetCards": "WidgetCard has whileHover transform that affects fixed children",
+    "weatherAPI": "Uses Open-Meteo for both weather and geocoding (free tier)"
+  },
+  "nextSteps": [
+    "Feature complete - ready to merge",
+    "Consider keyboard navigation for search results",
+    "Consider recent/favorite cities feature"
+  ]
 }
