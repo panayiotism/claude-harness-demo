@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Cloud, CloudRain, Sun, CloudSnow, Wind, Droplets, MapPin, RefreshCw, Search, X } from 'lucide-react';
+import { Cloud, CloudRain, Sun, CloudSnow, Wind, Droplets, MapPin, RefreshCw, Search } from 'lucide-react';
 import WidgetCard from './WidgetCard';
 import Button from './Button';
+import Modal from './Modal';
 
 interface GeocodingResult {
   id: number;
@@ -247,8 +248,8 @@ const WeatherWidget: React.FC = () => {
   if (!weather) return null;
 
   return (
-    <WidgetCard title="Weather" fullWidth delay={0} allowOverflow={showCitySearch}>
-      <div className={`relative rounded-xl bg-noir-800/50 border border-white/[0.04] ${showCitySearch ? 'overflow-visible' : 'overflow-hidden'}`}>
+    <WidgetCard title="Weather" fullWidth delay={0}>
+      <div className="relative overflow-hidden rounded-xl bg-noir-800/50 border border-white/[0.04]">
         {/* Ambient gradient background */}
         <div className={`absolute inset-0 bg-gradient-to-br ${getWeatherGradient(weather.weatherCode)}`} />
 
@@ -350,93 +351,71 @@ const WeatherWidget: React.FC = () => {
           </div>
         </div>
 
-        {/* City Search Overlay */}
-        <AnimatePresence>
-          {showCitySearch && (
+      </div>
+
+      {/* City Search Modal */}
+      <Modal isOpen={showCitySearch} onClose={closeCitySearch} title="Search City">
+        <div className="relative">
+          <input
+            ref={searchInputRef}
+            type="text"
+            value={cityQuery}
+            onChange={(e) => setCityQuery(e.target.value)}
+            placeholder="Enter city name..."
+            className="w-full px-4 py-2.5 pl-10 rounded-lg bg-white/[0.06] border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-transparent transition-all"
+          />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+          {searching && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-x-0 top-0 min-h-full bg-noir-900/80 backdrop-blur-sm rounded-xl z-10"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              className="absolute right-3 top-1/2 -translate-y-1/2"
             >
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-white font-display font-medium">Search City</h3>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={closeCitySearch}
-                    className="p-1 rounded-lg hover:bg-white/[0.08] text-white/60 hover:text-white transition-colors"
-                  >
-                    <X className="w-4 h-4" />
-                  </motion.button>
-                </div>
-
-                <div className="relative">
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    value={cityQuery}
-                    onChange={(e) => setCityQuery(e.target.value)}
-                    placeholder="Enter city name..."
-                    className="w-full px-4 py-2.5 pl-10 rounded-lg bg-white/[0.06] border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-transparent transition-all"
-                  />
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                  {searching && (
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                      className="absolute right-3 top-1/2 -translate-y-1/2"
-                    >
-                      <RefreshCw className="w-4 h-4 text-white/40" />
-                    </motion.div>
-                  )}
-                </div>
-
-                {/* Search Results */}
-                {searchResults.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-3 max-h-40 overflow-y-auto rounded-lg bg-white/[0.04] border border-white/[0.06]"
-                  >
-                    {searchResults.map((result) => (
-                      <motion.button
-                        key={result.id}
-                        whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.08)' }}
-                        onClick={() => selectCity(result)}
-                        className="w-full px-4 py-2.5 text-left flex items-center gap-3 border-b border-white/[0.04] last:border-b-0 transition-colors"
-                      >
-                        <MapPin className="w-4 h-4 text-amber-400/60 flex-shrink-0" />
-                        <div className="min-w-0">
-                          <p className="text-white text-sm font-medium truncate">
-                            {result.name}
-                          </p>
-                          <p className="text-white/40 text-xs truncate">
-                            {result.admin1 ? `${result.admin1}, ` : ''}{result.country}
-                          </p>
-                        </div>
-                      </motion.button>
-                    ))}
-                  </motion.div>
-                )}
-
-                {cityQuery.length >= 2 && searchResults.length === 0 && !searching && (
-                  <p className="mt-3 text-white/40 text-sm text-center">
-                    No cities found. Try a different search.
-                  </p>
-                )}
-
-                {cityQuery.length > 0 && cityQuery.length < 2 && (
-                  <p className="mt-3 text-white/40 text-sm text-center">
-                    Type at least 2 characters to search
-                  </p>
-                )}
-              </div>
+              <RefreshCw className="w-4 h-4 text-white/40" />
             </motion.div>
           )}
-        </AnimatePresence>
-      </div>
+        </div>
+
+        {/* Search Results */}
+        {searchResults.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-3 max-h-60 overflow-y-auto rounded-lg bg-white/[0.04] border border-white/[0.06]"
+          >
+            {searchResults.map((result) => (
+              <motion.button
+                key={result.id}
+                whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.08)' }}
+                onClick={() => selectCity(result)}
+                className="w-full px-4 py-2.5 text-left flex items-center gap-3 border-b border-white/[0.04] last:border-b-0 transition-colors"
+              >
+                <MapPin className="w-4 h-4 text-amber-400/60 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-white text-sm font-medium truncate">
+                    {result.name}
+                  </p>
+                  <p className="text-white/40 text-xs truncate">
+                    {result.admin1 ? `${result.admin1}, ` : ''}{result.country}
+                  </p>
+                </div>
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+
+        {cityQuery.length >= 2 && searchResults.length === 0 && !searching && (
+          <p className="mt-3 text-white/40 text-sm text-center">
+            No cities found. Try a different search.
+          </p>
+        )}
+
+        {cityQuery.length > 0 && cityQuery.length < 2 && (
+          <p className="mt-3 text-white/40 text-sm text-center">
+            Type at least 2 characters to search
+          </p>
+        )}
+      </Modal>
     </WidgetCard>
   );
 };
