@@ -247,8 +247,8 @@ const WeatherWidget: React.FC = () => {
   if (!weather) return null;
 
   return (
-    <WidgetCard title="Weather" fullWidth delay={0}>
-      <div className="relative overflow-hidden rounded-xl bg-noir-800/50 border border-white/[0.04]">
+    <WidgetCard title="Weather" fullWidth delay={0} allowOverflow={showCitySearch}>
+      <div className={`relative rounded-xl bg-noir-800/50 border border-white/[0.04] ${showCitySearch ? 'overflow-visible' : 'overflow-hidden'}`}>
         {/* Ambient gradient background */}
         <div className={`absolute inset-0 bg-gradient-to-br ${getWeatherGradient(weather.weatherCode)}`} />
 
@@ -357,7 +357,7 @@ const WeatherWidget: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-noir-900/95 backdrop-blur-sm rounded-xl z-10"
+              className="absolute inset-0 bg-noir-900/80 backdrop-blur-sm rounded-xl z-10"
             >
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
