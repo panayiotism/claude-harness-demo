@@ -1,4 +1,38 @@
 {
   "version": 1,
-  "features": []
+  "features": [
+    {
+      "id": "feature-004",
+      "name": "Manual City Entry for Weather Widget",
+      "description": "Add manual city entry functionality to the Weather Widget, allowing users to type in a city name and get weather data for that location. Uses Open-Meteo geocoding API.",
+      "priority": 1,
+      "passes": false,
+      "verification": [
+        "Text input for city name is visible and styled consistently",
+        "Users can type a city name and search for weather",
+        "Geocoding API returns valid coordinates for the city",
+        "Weather data displays correctly for the selected city",
+        "Selected city persists across page refreshes",
+        "Invalid city names show appropriate error message",
+        "Build completes without errors",
+        "TypeScript type checking passes"
+      ],
+      "verificationCommands": {
+        "build": "npm run build",
+        "tests": null,
+        "lint": "npm run lint --workspace=client",
+        "typecheck": "cd client && npx tsc --noEmit",
+        "custom": []
+      },
+      "maxAttempts": 10,
+      "relatedFiles": [
+        "client/src/components/WeatherWidget.tsx"
+      ],
+      "github": {
+        "issueNumber": 3,
+        "prNumber": null,
+        "branch": "feature/feature-004"
+      }
+    }
+  ]
 }

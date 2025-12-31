@@ -1,8 +1,17 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Cloud, CloudRain, Sun, CloudSnow, Wind, Droplets, MapPin, RefreshCw } from 'lucide-react';
+import { Cloud, CloudRain, Sun, CloudSnow, Wind, Droplets, MapPin, RefreshCw, Search, X } from 'lucide-react';
 import WidgetCard from './WidgetCard';
 import Button from './Button';
+
+interface GeocodingResult {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  country: string;
+  admin1?: string;
+}
 
 interface WeatherData {
   temperature: number;
@@ -30,6 +39,11 @@ const WeatherWidget: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [location, setLocation] = useState<LocationData>(DEFAULT_LOCATION);
   const [usingGeolocation, setUsingGeolocation] = useState(false);
+  const [showCitySearch, setShowCitySearch] = useState(false);
+  const [cityQuery, setCityQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<GeocodingResult[]>([]);
+  const [searching, setSearching] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const fetchWeatherForLocation = useCallback(async (loc: LocationData) => {
     try {
@@ -108,6 +122,70 @@ const WeatherWidget: React.FC = () => {
     setUsingGeolocation(false);
     localStorage.removeItem('weatherLocation');
     fetchWeatherForLocation(DEFAULT_LOCATION);
+  };
+
+  const searchCities = useCallback(async (query: string) => {
+    if (query.length < 2) {
+      setSearchResults([]);
+      return;
+    }
+
+    try {
+      setSearching(true);
+      const response = await fetch(
+        `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`
+      );
+      const data = await response.json();
+      setSearchResults(data.results || []);
+    } catch (err) {
+      console.error('Geocoding error:', err);
+      setSearchResults([]);
+    } finally {
+      setSearching(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (cityQuery) {
+        searchCities(cityQuery);
+      } else {
+        setSearchResults([]);
+      }
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [cityQuery, searchCities]);
+
+  const selectCity = (result: GeocodingResult) => {
+    const cityName = result.admin1
+      ? `${result.name}, ${result.admin1}, ${result.country}`
+      : `${result.name}, ${result.country}`;
+
+    const loc: LocationData = {
+      latitude: result.latitude,
+      longitude: result.longitude,
+      name: cityName,
+    };
+
+    setLocation(loc);
+    setUsingGeolocation(false);
+    localStorage.setItem('weatherLocation', JSON.stringify(loc));
+    setShowCitySearch(false);
+    setCityQuery('');
+    setSearchResults([]);
+    fetchWeatherForLocation(loc);
+  };
+
+  const openCitySearch = () => {
+    setShowCitySearch(true);
+    setTimeout(() => searchInputRef.current?.focus(), 100);
+  };
+
+  const closeCitySearch = () => {
+    setShowCitySearch(false);
+    setCityQuery('');
+    setSearchResults([]);
   };
 
   const getWeatherCondition = (code: number): string => {
@@ -229,6 +307,15 @@ const WeatherWidget: React.FC = () => {
 
               {/* Action buttons */}
               <div className="flex gap-2 mt-2">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={openCitySearch}
+                  className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white/60 hover:text-white transition-colors flex items-center gap-1.5"
+                >
+                  <Search className="w-3 h-3" />
+                  Search City
+                </motion.button>
                 {!usingGeolocation ? (
                   <motion.button
                     whileHover={{ scale: 1.05 }}
@@ -237,7 +324,7 @@ const WeatherWidget: React.FC = () => {
                     className="text-xs px-3 py-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-white/60 hover:text-white transition-colors flex items-center gap-1.5"
                   >
                     <MapPin className="w-3 h-3" />
-                    Use My Location
+                    My Location
                   </motion.button>
                 ) : (
                   <motion.button
@@ -262,6 +349,93 @@ const WeatherWidget: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* City Search Overlay */}
+        <AnimatePresence>
+          {showCitySearch && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-noir-900/95 backdrop-blur-sm rounded-xl z-10"
+            >
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-white font-display font-medium">Search City</h3>
+                  <motion.button
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={closeCitySearch}
+                    className="p-1 rounded-lg hover:bg-white/[0.08] text-white/60 hover:text-white transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                  </motion.button>
+                </div>
+
+                <div className="relative">
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={cityQuery}
+                    onChange={(e) => setCityQuery(e.target.value)}
+                    placeholder="Enter city name..."
+                    className="w-full px-4 py-2.5 pl-10 rounded-lg bg-white/[0.06] border border-white/10 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-transparent transition-all"
+                  />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                  {searching && (
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2"
+                    >
+                      <RefreshCw className="w-4 h-4 text-white/40" />
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Search Results */}
+                {searchResults.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-3 max-h-40 overflow-y-auto rounded-lg bg-white/[0.04] border border-white/[0.06]"
+                  >
+                    {searchResults.map((result) => (
+                      <motion.button
+                        key={result.id}
+                        whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.08)' }}
+                        onClick={() => selectCity(result)}
+                        className="w-full px-4 py-2.5 text-left flex items-center gap-3 border-b border-white/[0.04] last:border-b-0 transition-colors"
+                      >
+                        <MapPin className="w-4 h-4 text-amber-400/60 flex-shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-white text-sm font-medium truncate">
+                            {result.name}
+                          </p>
+                          <p className="text-white/40 text-xs truncate">
+                            {result.admin1 ? `${result.admin1}, ` : ''}{result.country}
+                          </p>
+                        </div>
+                      </motion.button>
+                    ))}
+                  </motion.div>
+                )}
+
+                {cityQuery.length >= 2 && searchResults.length === 0 && !searching && (
+                  <p className="mt-3 text-white/40 text-sm text-center">
+                    No cities found. Try a different search.
+                  </p>
+                )}
+
+                {cityQuery.length > 0 && cityQuery.length < 2 && (
+                  <p className="mt-3 text-white/40 text-sm text-center">
+                    Type at least 2 characters to search
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </WidgetCard>
   );
