@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "feature": null,
+  "featureName": null,
+  "status": "idle",
+  "attempt": 0,
+  "maxAttempts": 10,
+  "startedAt": null,
+  "lastAttemptAt": null,
+  "verification": {
+    "build": null,
+    "tests": null,
+    "lint": null,
+    "typecheck": null,
+    "custom": []
+  },
+  "history": [],
+  "lastCheckpoint": null,
+  "escalationRequested": false
+}
