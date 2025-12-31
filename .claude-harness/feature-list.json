@@ -6,7 +6,7 @@
       "name": "Manual City Entry for Weather Widget",
       "description": "Add manual city entry functionality to the Weather Widget, allowing users to type in a city name and get weather data for that location. Uses Open-Meteo geocoding API.",
       "priority": 1,
-      "passes": false,
+      "passes": true,
       "verification": [
         "Text input for city name is visible and styled consistently",
         "Users can type a city name and search for weather",
