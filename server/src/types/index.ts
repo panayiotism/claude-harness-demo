@@ -143,3 +143,24 @@ export interface ParseTaskResponse {
   task: ParsedTask;
   originalText: string;
 }
+
+// Task suggestion types
+export interface TaskSuggestion {
+  id: string;
+  title: string;
+  priority: TaskPriority;
+  reason: string;
+}
+
+export interface SuggestTasksRequest {
+  tasks: Array<{
+    title: string;
+    completed: boolean;
+    priority: TaskPriority;
+  }>;
+}
+
+export interface SuggestTasksResponse {
+  suggestions: TaskSuggestion[];
+  message?: string;
+}

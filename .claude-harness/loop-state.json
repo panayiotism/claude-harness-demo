@@ -1,14 +1,31 @@
 {
   "version": 1,
-  "feature": null,
-  "featureName": null,
-  "status": "idle",
-  "attempt": 0,
+  "feature": "feature-007",
+  "featureName": "Smart Task Suggestions",
+  "status": "completed",
+  "attempt": 1,
   "maxAttempts": 10,
-  "startedAt": null,
-  "lastAttemptAt": null,
-  "verification": {},
-  "history": [],
-  "lastCheckpoint": "0a7aca1",
+  "startedAt": "2026-01-01T09:30:00.000Z",
+  "completedAt": "2026-01-01T09:45:00.000Z",
+  "lastAttemptAt": "2026-01-01T09:45:00.000Z",
+  "verification": {
+    "build": "npm run build",
+    "typecheck": "cd client && npx tsc --noEmit",
+    "tests": null,
+    "lint": null,
+    "custom": []
+  },
+  "history": [
+    {
+      "attempt": 1,
+      "status": "passed",
+      "timestamp": "2026-01-01T09:45:00.000Z",
+      "results": {
+        "build": "passed",
+        "typecheck": "passed"
+      }
+    }
+  ],
+  "lastCheckpoint": "9eab561",
   "escalationRequested": false
 }

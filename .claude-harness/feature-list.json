@@ -6,8 +6,8 @@
       "name": "Smart Task Suggestions",
       "description": "AI-powered task recommendations based on existing tasks and patterns. Analyzes completed and pending tasks to suggest related tasks or next steps.",
       "priority": 2,
-      "passes": false,
-      "phase": "planned",
+      "passes": true,
+      "phase": "implemented",
       "verification": [
         "Get Suggestions button visible in Tasks widget",
         "AI analyzes last 20 tasks for context",

@@ -7,6 +7,9 @@ import {
   ParseTaskResponse,
   ParsedTask,
   TaskPriority,
+  SuggestTasksRequest,
+  SuggestTasksResponse,
+  TaskSuggestion,
 } from '../types';
 import { createCompletion, isConfigured, AnthropicError } from '../services/anthropic';
 import { aiRateLimit } from '../middleware/rateLimit';
@@ -182,6 +185,116 @@ router.post(
         data: {
           task: parsedTask,
           originalText: text,
+        },
+        success: true,
+      };
+      res.json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// System prompt for suggesting tasks
+const SUGGEST_TASKS_SYSTEM = `You are a productivity assistant. Analyze the user's existing tasks and suggest 3 new tasks they might want to add.
+
+Guidelines:
+1. Look for patterns in existing tasks (work, personal, health, etc.)
+2. Suggest related or follow-up tasks
+3. Consider incomplete vs completed tasks
+4. Keep suggestions actionable and specific
+5. Assign appropriate priority based on urgency patterns
+
+Respond ONLY with valid JSON array of exactly 3 suggestions:
+[
+  {"title":"Task title","priority":"medium","reason":"Brief reason why this task is suggested"},
+  {"title":"Task title","priority":"low","reason":"Brief reason"},
+  {"title":"Task title","priority":"high","reason":"Brief reason"}
+]
+
+Priority must be: "low", "medium", or "high"
+Reason should be 1 short sentence explaining why this task is relevant.`;
+
+// POST /api/ai/suggest-tasks - Get AI-powered task suggestions
+router.post(
+  '/suggest-tasks',
+  aiRateLimit,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { tasks }: SuggestTasksRequest = req.body;
+
+      // Validate input
+      if (!Array.isArray(tasks)) {
+        throw new ValidationError('tasks must be an array');
+      }
+
+      // Check if we have enough tasks for meaningful suggestions
+      if (tasks.length < 2) {
+        const response: ApiSuccessResponse<SuggestTasksResponse> = {
+          data: {
+            suggestions: [],
+            message: 'Add more tasks to get personalized suggestions',
+          },
+          success: true,
+        };
+        res.json(response);
+        return;
+      }
+
+      // Take last 20 tasks for context
+      const recentTasks = tasks.slice(-20);
+      const taskContext = recentTasks
+        .map((t) => `- ${t.title} (${t.priority}, ${t.completed ? 'done' : 'pending'})`)
+        .join('\n');
+
+      // Call Claude to generate suggestions
+      const result = await createCompletion({
+        prompt: `Here are the user's recent tasks:\n${taskContext}\n\nSuggest 3 new tasks they might want to add.`,
+        system: SUGGEST_TASKS_SYSTEM,
+        maxTokens: 512,
+      });
+
+      // Parse JSON response
+      let suggestions: TaskSuggestion[] = [];
+      try {
+        const parsed = JSON.parse(result.content.trim());
+
+        if (Array.isArray(parsed)) {
+          const validPriorities: TaskPriority[] = ['low', 'medium', 'high'];
+          suggestions = parsed.slice(0, 3).map((s, index) => ({
+            id: `suggestion-${Date.now()}-${index}`,
+            title: String(s.title || 'Untitled task').trim(),
+            priority: validPriorities.includes(s.priority) ? s.priority : 'medium',
+            reason: String(s.reason || 'Suggested based on your task patterns').trim(),
+          }));
+        }
+      } catch {
+        // If parsing fails, return empty with message
+        const response: ApiSuccessResponse<SuggestTasksResponse> = {
+          data: {
+            suggestions: [],
+            message: 'Unable to generate suggestions at this time',
+          },
+          success: true,
+        };
+        res.json(response);
+        return;
+      }
+
+      // Log usage
+      const clientIp = getClientIp(req);
+      logUsage(
+        '/suggest-tasks',
+        result.model,
+        result.usage.promptTokens,
+        result.usage.completionTokens,
+        result.usage.totalTokens,
+        clientIp
+      );
+
+      const response: ApiSuccessResponse<SuggestTasksResponse> = {
+        data: {
+          suggestions,
         },
         success: true,
       };

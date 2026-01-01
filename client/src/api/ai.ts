@@ -16,6 +16,24 @@ export interface AIStatus {
   configured: boolean;
 }
 
+export interface TaskSuggestion {
+  id: string;
+  title: string;
+  priority: 'low' | 'medium' | 'high';
+  reason: string;
+}
+
+export interface SuggestTasksResponse {
+  suggestions: TaskSuggestion[];
+  message?: string;
+}
+
+export interface TaskForSuggestion {
+  title: string;
+  completed: boolean;
+  priority: 'low' | 'medium' | 'high';
+}
+
 export const aiApi = {
   /**
    * Check if AI features are available
@@ -30,6 +48,14 @@ export const aiApi = {
    */
   parseTask: async (text: string): Promise<ParseTaskResponse> => {
     const response = await api.post<ParseTaskResponse>('/ai/parse-task', { text });
+    return response.data;
+  },
+
+  /**
+   * Get AI-powered task suggestions based on existing tasks
+   */
+  getSuggestions: async (tasks: TaskForSuggestion[]): Promise<SuggestTasksResponse> => {
+    const response = await api.post<SuggestTasksResponse>('/ai/suggest-tasks', { tasks });
     return response.data;
   },
 };
