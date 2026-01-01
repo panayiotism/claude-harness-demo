@@ -1,16 +1,16 @@
 {
   "version": 1,
-  "feature": "feature-005",
-  "featureName": "Claude API Backend",
+  "feature": "feature-006",
+  "featureName": "Natural Language Task Entry",
   "status": "completed",
   "attempt": 1,
   "maxAttempts": 10,
-  "startedAt": "2026-01-01T08:20:00.000Z",
-  "completedAt": "2026-01-01T08:25:00.000Z",
-  "lastAttemptAt": "2026-01-01T08:25:00.000Z",
+  "startedAt": "2026-01-01T09:00:00.000Z",
+  "completedAt": "2026-01-01T09:15:00.000Z",
+  "lastAttemptAt": "2026-01-01T09:15:00.000Z",
   "verification": {
-    "build": "cd server && npm run build",
-    "typecheck": "cd server && npx tsc --noEmit",
+    "build": "npm run build",
+    "typecheck": "cd client && npx tsc --noEmit",
     "tests": null,
     "lint": null,
     "custom": []
@@ -18,19 +18,16 @@
   "history": [
     {
       "attempt": 1,
-      "timestamp": "2026-01-01T08:25:00.000Z",
-      "approach": "Followed implementation plan: installed @anthropic-ai/sdk, added ai_usage table, created types, service wrapper, rate limiter middleware, AI routes, mounted in server, created .env.example",
+      "timestamp": "2026-01-01T09:15:00.000Z",
+      "approach": "Followed implementation plan: added ParsedTask types to server, created /api/ai/parse-task endpoint with Claude prompt for NL parsing, created client AI API, built NaturalLanguageInput component with loading/error states, integrated into TasksWidget with fallback to manual entry",
       "filesModified": [
-        "server/package.json",
-        "server/src/db/schema.sql",
         "server/src/types/index.ts",
-        "server/src/index.ts"
+        "server/src/routes/ai.ts",
+        "client/src/components/TasksWidget.tsx"
       ],
       "filesCreated": [
-        "server/src/services/anthropic.ts",
-        "server/src/middleware/rateLimit.ts",
-        "server/src/routes/ai.ts",
-        "server/.env.example"
+        "client/src/api/ai.ts",
+        "client/src/components/NaturalLanguageInput.tsx"
       ],
       "result": "passed",
       "verificationResults": {
@@ -39,6 +36,6 @@
       }
     }
   ],
-  "lastCheckpoint": "d1827fc",
+  "lastCheckpoint": null,
   "escalationRequested": false
 }

@@ -126,3 +126,20 @@ export interface AIUsage {
   client_ip: string | null;
   created_at: string;
 }
+
+// Parsed task from natural language
+export interface ParsedTask {
+  title: string;
+  priority: TaskPriority;
+  dueDate: string | null;
+  confidence: number;
+}
+
+export interface ParseTaskRequest {
+  text: string;
+}
+
+export interface ParseTaskResponse {
+  task: ParsedTask;
+  originalText: string;
+}

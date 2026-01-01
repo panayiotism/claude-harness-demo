@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Trash2, Check, Calendar, ListTodo } from 'lucide-react';
 import WidgetCard from './WidgetCard';
 import Button from './Button';
 import Modal from './Modal';
+import NaturalLanguageInput from './NaturalLanguageInput';
 import { Task } from '../types';
 import { tasksApi } from '../api/tasks';
+import { ParsedTask } from '../api/ai';
 
 type FilterType = 'all' | 'active' | 'completed';
 
@@ -143,6 +145,41 @@ const TasksWidget: React.FC = () => {
   const completedCount = tasks.filter(t => t.completed).length;
   const progress = tasks.length > 0 ? (completedCount / tasks.length) * 100 : 0;
 
+  // Handle task parsed from natural language input
+  const handleTaskParsed = useCallback(async (parsedTask: ParsedTask) => {
+    const newTask: Task = {
+      id: Date.now().toString(),
+      title: parsedTask.title,
+      completed: false,
+      priority: parsedTask.priority,
+      dueDate: parsedTask.dueDate || undefined,
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      if (useLocalStorage) {
+        const updatedTasks = [...tasks, newTask];
+        setTasks(updatedTasks);
+        saveToStorage(updatedTasks);
+      } else {
+        const created = await tasksApi.create({
+          title: newTask.title,
+          completed: false,
+          priority: newTask.priority,
+          dueDate: newTask.dueDate,
+        });
+        setTasks((prev) => [...prev, created]);
+      }
+    } catch (error) {
+      console.error('Error adding parsed task:', error);
+    }
+  }, [tasks, useLocalStorage, saveToStorage]);
+
+  // Open modal as fallback when AI fails
+  const handleAIError = useCallback(() => {
+    setIsModalOpen(true);
+  }, []);
+
   return (
     <>
       <WidgetCard title="Tasks" delay={2}>
@@ -276,6 +313,21 @@ const TasksWidget: React.FC = () => {
               })}
             </AnimatePresence>
           )}
+        </div>
+
+        {/* Natural language input */}
+        <div className="mb-3">
+          <NaturalLanguageInput
+            onTaskParsed={handleTaskParsed}
+            onError={handleAIError}
+          />
+        </div>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 mb-3">
+          <div className="flex-1 h-px bg-white/10" />
+          <span className="text-xs text-white/30">or</span>
+          <div className="flex-1 h-px bg-white/10" />
         </div>
 
         <Button onClick={() => setIsModalOpen(true)} className="w-full">
