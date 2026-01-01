@@ -1,38 +1,39 @@
 {
-  "lastUpdated": "2026-01-01T08:30:00.000Z",
+  "lastUpdated": "2026-01-01T09:20:00.000Z",
   "currentProject": "claude-harness-demo",
   "lastSession": {
-    "summary": "Implemented feature-005 (Claude API Backend) - Smart Productivity Assistant foundation",
+    "summary": "Implemented feature-006 (Natural Language Task Entry) - AI-powered task parsing from natural language",
     "completedTasks": [
-      "Created 4 features for Smart Productivity Assistant suite",
-      "Planned feature-005 (Claude API Backend) implementation",
-      "Implemented @anthropic-ai/sdk integration with secure API key handling",
-      "Created rate limiting middleware (10 req/min per IP)",
-      "Added ai_usage table for usage tracking",
-      "Created /api/ai/complete, /status, /usage endpoints",
-      "Passed all verification (build + typecheck)"
+      "Planned feature-006 implementation with 4 steps",
+      "Added ParsedTask types and /api/ai/parse-task endpoint",
+      "Created client AI API with parseTask() method",
+      "Built NaturalLanguageInput component with loading/error states",
+      "Integrated NL input into TasksWidget with fallback to manual entry",
+      "Passed all verification (build + typecheck) in 1 attempt",
+      "Committed feature-006 (ee4ca59)",
+      "Planned feature-007 (Smart Task Suggestions)"
     ],
     "blockers": [],
     "nextSteps": [
-      "Run /claude-harness:implement feature-006 for Natural Language Task Entry",
       "Run /claude-harness:implement feature-007 for Smart Task Suggestions",
       "Run /claude-harness:implement feature-008 for Productivity Insights Widget",
+      "Run /claude-harness:checkpoint after each feature",
       "Run /claude-harness:merge-all to release all features"
     ]
   },
   "recentChanges": [
-    "server/src/routes/ai.ts - New AI endpoints",
-    "server/src/services/anthropic.ts - SDK wrapper with error handling",
-    "server/src/middleware/rateLimit.ts - Rate limiting",
-    "server/src/db/schema.sql - Added ai_usage table",
-    "server/.env.example - API key template"
+    "server/src/routes/ai.ts - Added /parse-task endpoint with Claude NL parsing",
+    "server/src/types/index.ts - Added ParsedTask types",
+    "client/src/api/ai.ts - New AI API client",
+    "client/src/components/NaturalLanguageInput.tsx - NL input component",
+    "client/src/components/TasksWidget.tsx - Integrated NL input"
   ],
   "knownIssues": [
     "ESLint config missing from project (pre-existing)"
   ],
   "environmentState": {
     "devServerRunning": false,
-    "lastSuccessfulBuild": "2026-01-01T08:25:00.000Z",
-    "lastTypeCheck": "2026-01-01T08:25:00.000Z"
+    "lastSuccessfulBuild": "2026-01-01T09:15:00.000Z",
+    "lastTypeCheck": "2026-01-01T09:15:00.000Z"
   }
 }

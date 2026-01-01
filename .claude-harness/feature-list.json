@@ -208,6 +208,7 @@
       "description": "AI-powered task recommendations based on existing tasks and patterns. Analyzes completed and pending tasks to suggest related tasks or next steps.",
       "priority": 2,
       "passes": false,
+      "phase": "planned",
       "verification": [
         "Get Suggestions button visible in Tasks widget",
         "AI analyzes last 20 tasks for context",
@@ -237,7 +238,61 @@
         "branch": "feature/feature-007"
       },
       "dependencies": ["feature-005"],
-      "createdAt": "2026-01-01T08:13:12.000Z"
+      "createdAt": "2026-01-01T08:13:12.000Z",
+      "plan": {
+        "steps": [
+          {
+            "step": 1,
+            "description": "Add TaskSuggestion types to server",
+            "files": ["server/src/types/index.ts"],
+            "details": "Add TaskSuggestion, SuggestTasksRequest, SuggestTasksResponse interfaces"
+          },
+          {
+            "step": 2,
+            "description": "Add POST /api/ai/suggest-tasks endpoint",
+            "files": ["server/src/routes/ai.ts"],
+            "details": "Accepts array of existing tasks, uses Claude to generate 3 smart suggestions based on patterns"
+          },
+          {
+            "step": 3,
+            "description": "Add getSuggestions to frontend AI API",
+            "files": ["client/src/api/ai.ts"],
+            "details": "Export getSuggestions(tasks) method that calls /api/ai/suggest-tasks"
+          },
+          {
+            "step": 4,
+            "description": "Create SuggestionCard component",
+            "files": ["client/src/components/SuggestionCard.tsx"],
+            "details": "Card showing suggestion with Add and Dismiss buttons, motion.dev animations"
+          },
+          {
+            "step": 5,
+            "description": "Integrate suggestions into TasksWidget",
+            "files": ["client/src/components/TasksWidget.tsx"],
+            "details": "Add 'Get Suggestions' button, show suggestions panel, handle add/dismiss actions"
+          }
+        ],
+        "estimatedFiles": [
+          "server/src/types/index.ts",
+          "server/src/routes/ai.ts",
+          "client/src/api/ai.ts",
+          "client/src/components/SuggestionCard.tsx",
+          "client/src/components/TasksWidget.tsx"
+        ],
+        "impactScore": "low",
+        "risks": [
+          "Poor quality suggestions with few tasks",
+          "Slow response blocking UI",
+          "Duplicate suggestions"
+        ],
+        "mitigations": [
+          "Minimum task count check with helpful message",
+          "Loading state on button",
+          "De-duplicate against existing task titles"
+        ],
+        "pastFailuresToAvoid": [],
+        "approachFromSuccesses": "Follow feature-006 patterns. Use existing aiApi structure. Match Crystalline Noir styling."
+      }
     },
     {
       "id": "feature-008",
