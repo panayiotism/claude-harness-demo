@@ -7,6 +7,7 @@ interface WidgetCardProps {
   className?: string;
   fullWidth?: boolean;
   delay?: number;
+  allowOverflow?: boolean;
 }
 
 const WidgetCard: React.FC<WidgetCardProps> = ({
@@ -14,7 +15,8 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
   children,
   className = '',
   fullWidth = false,
-  delay = 0
+  delay = 0,
+  allowOverflow = false
 }) => {
   return (
     <motion.div
@@ -37,7 +39,7 @@ const WidgetCard: React.FC<WidgetCardProps> = ({
         rounded-2xl
         border border-white/[0.06]
         shadow-crystal
-        overflow-hidden
+        ${allowOverflow ? 'overflow-visible' : 'overflow-hidden'}
         crystal-shine
         ${className}
       `}

@@ -1,41 +1,38 @@
 {
-  "lastUpdated": "2025-12-26T13:30:00.000Z",
+  "lastUpdated": "2026-01-01T09:50:00.000Z",
   "currentProject": "claude-harness-demo",
   "lastSession": {
-    "summary": "Modal styling and UX improvements - consistent input styling, better contrast, improved backdrop",
+    "summary": "Migrated harness from v2.x to v3.0 Memory Architecture",
     "completedTasks": [
-      "Created feature-003 for Modal Styling & UX Improvements",
-      "Updated all 4 widget modals with consistent input styling (bg-white/[0.06], border-white/10)",
-      "Added amber focus rings (focus:ring-2 focus:ring-amber-400/50) to all inputs",
-      "Standardized form spacing to space-y-5 across all modals",
-      "Added Cancel buttons with secondary variant to all modals",
-      "Fixed date input dark mode styling with [color-scheme:dark]",
-      "Improved modal backdrop opacity (bg-black/90) for better contrast",
-      "Enhanced modal card visibility with lighter background (bg-noir-800)",
-      "Increased modal border visibility (border-white/10)",
-      "Added stronger shadow (shadow-2xl) and blur (backdrop-blur-xl)",
-      "Verified all changes with QA testing agent",
-      "Build passes without TypeScript errors"
+      "Detected v2.x harness installation requiring migration",
+      "Created v3.0 directory structure (memory/, features/, impact/, agents/, loops/)",
+      "Migrated agent-memory.json to memory/procedural/ (successes, failures, patterns)",
+      "Migrated working-context.json to memory/working/context.json",
+      "Created memory/episodic/decisions.json from architectural decisions",
+      "Created memory/semantic/architecture.json with project structure",
+      "Migrated agent-context.json to agents/context.json",
+      "Migrated loop-state.json to loops/state.json",
+      "Created .migrated-from-v2 marker file"
     ],
     "blockers": [],
     "nextSteps": [
-      "Add focus trap for better accessibility",
-      "Add form validation feedback",
-      "Test on mobile devices",
-      "Add unit tests for modal components"
+      "Run /claude-harness:start to compile context and sync GitHub",
+      "Use /claude-harness:feature to add new features",
+      "Use /claude-harness:implement for agentic loops"
     ]
   },
   "recentChanges": [
-    "client/src/components/Modal.tsx - Improved backdrop and card contrast",
-    "client/src/components/NotesWidget.tsx - Consistent modal form styling",
-    "client/src/components/TasksWidget.tsx - Consistent modal form styling",
-    "client/src/components/PomodoroWidget.tsx - Consistent modal form styling",
-    "client/src/components/QuickLinksWidget.tsx - Consistent modal form styling"
+    ".claude-harness/memory/ - New v3.0 memory architecture",
+    ".claude-harness/features/ - Feature tracking directory",
+    ".claude-harness/agents/ - Agent context directory",
+    ".claude-harness/loops/ - Loop state directory"
   ],
-  "knownIssues": [],
+  "knownIssues": [
+    "ESLint config missing from project (pre-existing)"
+  ],
   "environmentState": {
-    "devServerRunning": true,
-    "lastSuccessfulBuild": "2025-12-26T13:30:00.000Z",
-    "lastTypeCheck": "2025-12-26T13:30:00.000Z"
+    "devServerRunning": false,
+    "lastSuccessfulBuild": "2025-12-31T12:00:00.000Z",
+    "lastTypeCheck": "2025-12-31T12:00:00.000Z"
   }
 }

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "currentSession": null,
+  "projectContext": {
+    "name": "claude-harness-demo",
+    "techStack": ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "SQLite", "Vite", "motion.dev"],
+    "testingFramework": null,
+    "buildCommand": "npm run build",
+    "testCommand": null
+  },
+  "motionPatterns": {
+    "import": "import { motion, AnimatePresence } from 'motion/react'",
+    "hoverEffect": "whileHover={{ scale: 1.02 }}",
+    "tapEffect": "whileTap={{ scale: 0.98 }}",
+    "springTransition": "transition={{ type: 'spring', stiffness: 300, damping: 20 }}",
+    "layoutAnimation": "layout prop for automatic layout animations",
+    "enterExitAnimation": "AnimatePresence with initial, animate, exit props"
+  },
+  "fileIndex": {
+    "components": ["client/src/components/"],
+    "apiRoutes": ["server/src/routes/"],
+    "tests": [],
+    "configs": ["package.json", "vite.config.ts", "tailwind.config.js", "tsconfig.json"]
+  },
+  "agentResults": [],
+  "pendingHandoffs": []
+}

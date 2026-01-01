@@ -1,0 +1,32 @@
+{
+  "projectType": "fullstack-dashboard",
+  "techStack": {
+    "frontend": ["React", "TypeScript", "Tailwind CSS", "Vite", "motion.dev"],
+    "backend": ["Node.js", "Express", "TypeScript", "SQLite", "better-sqlite3"]
+  },
+  "structure": {
+    "entryPoints": ["client/src/main.tsx", "server/src/index.ts"],
+    "components": ["client/src/components/"],
+    "api": ["server/src/routes/"],
+    "tests": []
+  },
+  "patterns": {
+    "apiResponseFormat": "{ data, success } wrapper from backend",
+    "componentStructure": "Widget components with shared WidgetCard wrapper",
+    "animationPattern": "motion.div with whileHover/whileTap for interactions",
+    "colorScheme": "Noir palette with dark amber (#b45309) accents",
+    "modalInputStyling": "bg-white/[0.06] border-white/10 with focus:ring-amber-400/50",
+    "modalBackdrop": "bg-black/90 backdrop-blur-xl for high contrast",
+    "modalPortal": "Use createPortal to render modals at document.body"
+  },
+  "constraints": [
+    "Use Tailwind CSS for all styling",
+    "TypeScript strict mode enabled",
+    "RESTful API design for backend",
+    "Responsive mobile-first design",
+    "Use motion.dev for all animations and micro-interactions",
+    "Black text on amber-colored interactive elements for contrast"
+  ],
+  "discoveredAt": "2026-01-01T09:47:00.000Z",
+  "lastUpdated": "2026-01-01T09:47:00.000Z"
+}
