@@ -1,0 +1,53 @@
+{
+  "maxEntries": 50,
+  "entries": [
+    {
+      "decision": "Monorepo structure with client/ and server/ directories",
+      "reason": "Clear separation of frontend and backend code",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-25T09:00:00.000Z"
+    },
+    {
+      "decision": "SQLite for database with better-sqlite3",
+      "reason": "Simple, file-based database perfect for personal dashboard",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-25T09:00:00.000Z"
+    },
+    {
+      "decision": "LocalStorage fallback for offline-first experience",
+      "reason": "Widgets work without backend, seamlessly sync when available",
+      "madeBy": "frontend-agent",
+      "timestamp": "2025-12-25T10:00:00.000Z"
+    },
+    {
+      "decision": "Default location for WeatherWidget instead of auto-geolocation",
+      "reason": "Avoid browser permission warnings, use London as default",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-25T10:35:00.000Z"
+    },
+    {
+      "decision": "Use motion.dev for micro-interactions",
+      "reason": "Production-ready React animation library with 120fps GPU-accelerated animations, gesture support, and spring physics",
+      "madeBy": "orchestrator",
+      "timestamp": "2025-12-26T11:00:00.000Z"
+    },
+    {
+      "decision": "Crystalline Noir design system with dark amber accents",
+      "reason": "Distinctive aesthetic with Outfit/DM Sans fonts, noir palette, and amber (#b45309) accent colors with black text for contrast",
+      "madeBy": "frontend-design",
+      "timestamp": "2025-12-26T12:00:00.000Z"
+    },
+    {
+      "decision": "Consistent modal styling with high contrast backdrop",
+      "reason": "bg-black/90 backdrop with bg-noir-800 modal card for clear visual separation",
+      "madeBy": "frontend-styling-agent",
+      "timestamp": "2025-12-26T13:30:00.000Z"
+    },
+    {
+      "decision": "Use React Portal for Modal component",
+      "reason": "Prevents fixed positioning issues caused by parent transforms (whileHover animations)",
+      "madeBy": "claude-code",
+      "timestamp": "2025-12-31T12:00:00.000Z"
+    }
+  ]
+}

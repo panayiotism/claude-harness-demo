@@ -1,0 +1,39 @@
+{
+  "entries": [
+    {
+      "task": "Build React frontend with 5 widget components",
+      "approach": "Created modular components with shared WidgetCard, Button, Modal. Used Tailwind for styling with custom theme. Implemented localStorage fallback for all data widgets.",
+      "agents": ["frontend-agent"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-25T10:37:00.000Z"
+    },
+    {
+      "task": "Build Express backend with SQLite database",
+      "approach": "Used better-sqlite3 for synchronous DB operations. Created separate route files for each resource. Implemented validation utilities and custom error classes.",
+      "agents": ["backend-agent"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-25T10:37:00.000Z"
+    },
+    {
+      "task": "Design revamp with motion.dev micro-interactions",
+      "approach": "Implemented Crystalline Noir design system with Outfit/DM Sans fonts, noir color palette, and dark amber accents. Added motion.dev animations to all 8 components including whileHover/whileTap, AnimatePresence for modals/lists, layout animations, and spring physics. Used black text on amber elements for contrast.",
+      "agents": ["frontend-design"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-26T12:00:00.000Z"
+    },
+    {
+      "task": "Modal styling and UX improvements",
+      "approach": "Updated all 4 widget modals with consistent input styling (bg-white/[0.06], border-white/10, amber focus rings). Added Cancel buttons with secondary variant. Standardized form spacing to space-y-5. Fixed date input dark mode with [color-scheme:dark].",
+      "agents": ["frontend-styling-agent", "qa-testing-agent"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-26T13:25:00.000Z"
+    },
+    {
+      "task": "Manual city entry for Weather Widget",
+      "approach": "Used existing Modal component with React Portal. Integrated Open-Meteo geocoding API with debounced search (300ms). Stored selected city in localStorage. Fixed modal flickering by using createPortal to render at document.body level.",
+      "agents": ["claude-code"],
+      "successRate": 1.0,
+      "recordedAt": "2025-12-31T12:00:00.000Z"
+    }
+  ]
+}

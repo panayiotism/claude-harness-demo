@@ -1,0 +1,31 @@
+{
+  "codePatterns": [
+    "Use axios interceptors to unwrap backend response format",
+    "LocalStorage fallback pattern for offline-first widgets",
+    "Glassmorphism with Tailwind: bg-white/10 backdrop-blur-lg",
+    "motion.dev: import { motion, AnimatePresence } from 'motion/react'",
+    "Hover micro-interactions: whileHover={{ scale: 1.02 }}",
+    "Tap feedback: whileTap={{ scale: 0.98 }}",
+    "Spring physics: transition={{ type: 'spring', stiffness: 300, damping: 20 }}",
+    "Layout animations: add layout prop to motion components",
+    "Enter/exit: wrap with AnimatePresence, use initial/animate/exit props",
+    "Modal input styling: bg-white/[0.06] border-white/10 rounded-lg px-4 py-3",
+    "Focus states: focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400/50",
+    "Form button layout: flex justify-end gap-3 with Cancel (secondary) + Submit (primary)",
+    "React Portal: Use createPortal(content, document.body) for modals to avoid transform issues",
+    "Debounced search: useEffect with setTimeout(300ms) for API calls"
+  ],
+  "namingConventions": {
+    "components": "PascalCase with Widget suffix for dashboard widgets",
+    "routes": "lowercase plural (notes, tasks, links)",
+    "types": "PascalCase interfaces in types/index.ts"
+  },
+  "projectSpecificRules": [
+    "Backend wraps responses in { data, success } format",
+    "Use better-sqlite3 synchronous API for simplicity",
+    "Vite proxy forwards /api to backend port",
+    "Dark amber accent colors (#b45309, #d97706) with black text for contrast",
+    "Noir palette for backgrounds (noir-950 to noir-500)",
+    "Outfit font for headings, DM Sans for body text"
+  ]
+}
