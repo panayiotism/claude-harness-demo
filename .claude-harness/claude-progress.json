@@ -1,30 +1,31 @@
 {
-  "lastUpdated": "2025-12-31T12:00:00.000Z",
+  "lastUpdated": "2026-01-01T09:50:00.000Z",
   "currentProject": "claude-harness-demo",
   "lastSession": {
-    "summary": "Implemented manual city entry for Weather Widget with search modal and geocoding API integration",
+    "summary": "Migrated harness from v2.x to v3.0 Memory Architecture",
     "completedTasks": [
-      "Created feature-004 for Manual City Entry",
-      "Added city search functionality using Open-Meteo geocoding API",
-      "Implemented debounced search input with dropdown results",
-      "Used existing Modal component for search UI",
-      "Fixed modal flickering by adding React Portal (createPortal)",
-      "Added allowOverflow prop to WidgetCard for extensibility",
-      "Selected city persists to localStorage",
-      "Verified with Playwright MCP - all tests passed",
-      "Build and TypeScript checks pass"
+      "Detected v2.x harness installation requiring migration",
+      "Created v3.0 directory structure (memory/, features/, impact/, agents/, loops/)",
+      "Migrated agent-memory.json to memory/procedural/ (successes, failures, patterns)",
+      "Migrated working-context.json to memory/working/context.json",
+      "Created memory/episodic/decisions.json from architectural decisions",
+      "Created memory/semantic/architecture.json with project structure",
+      "Migrated agent-context.json to agents/context.json",
+      "Migrated loop-state.json to loops/state.json",
+      "Created .migrated-from-v2 marker file"
     ],
     "blockers": [],
     "nextSteps": [
-      "Add keyboard navigation for search results",
-      "Add loading skeleton for weather data",
-      "Consider adding recent/favorite cities feature"
+      "Run /claude-harness:start to compile context and sync GitHub",
+      "Use /claude-harness:feature to add new features",
+      "Use /claude-harness:implement for agentic loops"
     ]
   },
   "recentChanges": [
-    "client/src/components/WeatherWidget.tsx - Added city search with Modal",
-    "client/src/components/Modal.tsx - Added React Portal for stable positioning",
-    "client/src/components/WidgetCard.tsx - Added allowOverflow prop"
+    ".claude-harness/memory/ - New v3.0 memory architecture",
+    ".claude-harness/features/ - Feature tracking directory",
+    ".claude-harness/agents/ - Agent context directory",
+    ".claude-harness/loops/ - Loop state directory"
   ],
   "knownIssues": [
     "ESLint config missing from project (pre-existing)"

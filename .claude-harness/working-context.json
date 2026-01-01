@@ -1,28 +1,20 @@
 {
   "version": 1,
-  "lastUpdated": "2025-12-31T12:00:00.000Z",
-  "activeFeature": "feature-004",
-  "summary": "Manual City Entry for Weather Widget",
-  "workingFiles": {
-    "client/src/components/WeatherWidget.tsx": "modified - added city search with Modal, geocoding API",
-    "client/src/components/Modal.tsx": "modified - added React Portal for stable positioning",
-    "client/src/components/WidgetCard.tsx": "modified - added allowOverflow prop"
-  },
+  "lastUpdated": "2026-01-01T09:50:00.000Z",
+  "activeFeature": null,
+  "summary": "Harness v3.0 migration complete - no active feature",
+  "workingFiles": {},
   "decisions": [
-    "Use existing Modal component instead of inline overlay",
-    "Use React Portal (createPortal) to prevent transform-related flickering",
-    "Use Open-Meteo geocoding API for city search (free, no API key)",
-    "Debounce search input (300ms) to reduce API calls",
-    "Store selected city in localStorage for persistence"
+    "Migrated v2.x harness to v3.0 Memory Architecture",
+    "Preserved backward-compatible files (feature-list.json, claude-progress.json)",
+    "Created layered memory structure (working, episodic, semantic, procedural)"
   ],
   "codebaseUnderstanding": {
-    "modalSystem": "Modal component uses fixed positioning, now with Portal to body",
-    "widgetCards": "WidgetCard has whileHover transform that affects fixed children",
-    "weatherAPI": "Uses Open-Meteo for both weather and geocoding (free tier)"
+    "harness": "v3.0 uses multi-layer memory for better context retention",
+    "project": "React+Express dashboard with motion.dev animations"
   },
   "nextSteps": [
-    "Feature complete - ready to merge",
-    "Consider keyboard navigation for search results",
-    "Consider recent/favorite cities feature"
+    "Run /claude-harness:start to sync with GitHub",
+    "Add new features with /claude-harness:feature"
   ]
 }
