@@ -4,6 +4,7 @@ import NotesWidget from './components/NotesWidget';
 import TasksWidget from './components/TasksWidget';
 import PomodoroWidget from './components/PomodoroWidget';
 import QuickLinksWidget from './components/QuickLinksWidget';
+import InsightsWidget from './components/InsightsWidget';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             <TasksWidget />
             <PomodoroWidget />
             <QuickLinksWidget />
+            <InsightsWidget />
           </div>
 
           {/* Footer */}

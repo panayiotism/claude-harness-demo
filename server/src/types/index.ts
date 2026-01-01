@@ -164,3 +164,24 @@ export interface SuggestTasksResponse {
   suggestions: TaskSuggestion[];
   message?: string;
 }
+
+// Productivity insights types
+export interface ProductivityStats {
+  tasksCompleted: number;
+  tasksTotal: number;
+  tasksCompletedToday: number;
+  tasksCompletedThisWeek: number;
+  pomodoroSessions: number;
+  pomodoroMinutes: number;
+  completionRate: number;
+}
+
+export interface InsightsRequest {
+  stats: ProductivityStats;
+}
+
+export interface InsightsResponse {
+  summary: string;
+  tips: string[];
+  generatedAt: string;
+}

@@ -34,6 +34,22 @@ export interface TaskForSuggestion {
   priority: 'low' | 'medium' | 'high';
 }
 
+export interface ProductivityStats {
+  tasksCompleted: number;
+  tasksTotal: number;
+  tasksCompletedToday: number;
+  tasksCompletedThisWeek: number;
+  pomodoroSessions: number;
+  pomodoroMinutes: number;
+  completionRate: number;
+}
+
+export interface InsightsResponse {
+  summary: string;
+  tips: string[];
+  generatedAt: string;
+}
+
 export const aiApi = {
   /**
    * Check if AI features are available
@@ -56,6 +72,14 @@ export const aiApi = {
    */
   getSuggestions: async (tasks: TaskForSuggestion[]): Promise<SuggestTasksResponse> => {
     const response = await api.post<SuggestTasksResponse>('/ai/suggest-tasks', { tasks });
+    return response.data;
+  },
+
+  /**
+   * Get AI-powered productivity insights based on stats
+   */
+  getInsights: async (stats: ProductivityStats): Promise<InsightsResponse> => {
+    const response = await api.post<InsightsResponse>('/ai/insights', { stats });
     return response.data;
   },
 };

@@ -10,6 +10,8 @@ import {
   SuggestTasksRequest,
   SuggestTasksResponse,
   TaskSuggestion,
+  InsightsRequest,
+  InsightsResponse,
 } from '../types';
 import { createCompletion, isConfigured, AnthropicError } from '../services/anthropic';
 import { aiRateLimit } from '../middleware/rateLimit';
@@ -296,6 +298,105 @@ router.post(
         data: {
           suggestions,
         },
+        success: true,
+      };
+      res.json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+// System prompt for productivity insights
+const INSIGHTS_SYSTEM = `You are a productivity coach. Analyze the user's productivity statistics and provide personalized, encouraging insights.
+
+Based on the stats provided, generate:
+1. A 2-3 sentence summary of their productivity (be encouraging but realistic)
+2. 2-3 actionable tips to improve productivity
+
+Consider:
+- Task completion rate (high = praise, low = encourage)
+- Today's vs overall performance
+- Pomodoro usage (if any)
+- Balance between completing and adding tasks
+
+Respond ONLY with valid JSON:
+{
+  "summary": "Your personalized productivity summary here...",
+  "tips": ["Tip 1", "Tip 2", "Tip 3"]
+}
+
+Keep the summary warm, personal, and under 50 words. Tips should be specific and actionable.`;
+
+// POST /api/ai/insights - Get AI-powered productivity insights
+router.post(
+  '/insights',
+  aiRateLimit,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { stats }: InsightsRequest = req.body;
+
+      // Validate input
+      if (!stats || typeof stats !== 'object') {
+        throw new ValidationError('stats object is required');
+      }
+
+      // Build context for Claude
+      const statsContext = `
+Task Statistics:
+- Total tasks: ${stats.tasksTotal}
+- Completed: ${stats.tasksCompleted} (${Math.round(stats.completionRate * 100)}% completion rate)
+- Completed today: ${stats.tasksCompletedToday}
+- Completed this week: ${stats.tasksCompletedThisWeek}
+
+Pomodoro Statistics:
+- Total sessions: ${stats.pomodoroSessions}
+- Total focus time: ${stats.pomodoroMinutes} minutes
+      `.trim();
+
+      // Call Claude to generate insights
+      const result = await createCompletion({
+        prompt: `Here are the user's productivity statistics:\n\n${statsContext}\n\nProvide personalized productivity insights.`,
+        system: INSIGHTS_SYSTEM,
+        maxTokens: 512,
+      });
+
+      // Parse JSON response
+      let insights: InsightsResponse;
+      try {
+        const parsed = JSON.parse(result.content.trim());
+        insights = {
+          summary: String(parsed.summary || 'Keep up the great work on your productivity journey!').trim(),
+          tips: Array.isArray(parsed.tips)
+            ? parsed.tips.slice(0, 3).map((t: unknown) => String(t).trim())
+            : ['Try breaking tasks into smaller steps', 'Use the Pomodoro timer for focused work'],
+          generatedAt: new Date().toISOString(),
+        };
+      } catch {
+        // Fallback insights if parsing fails
+        insights = {
+          summary: 'Keep making progress on your tasks! Every completed task is a step forward.',
+          tips: [
+            'Try using the Pomodoro timer for focused work sessions',
+            'Break large tasks into smaller, manageable steps',
+          ],
+          generatedAt: new Date().toISOString(),
+        };
+      }
+
+      // Log usage
+      const clientIp = getClientIp(req);
+      logUsage(
+        '/insights',
+        result.model,
+        result.usage.promptTokens,
+        result.usage.completionTokens,
+        result.usage.totalTokens,
+        clientIp
+      );
+
+      const response: ApiSuccessResponse<InsightsResponse> = {
+        data: insights,
         success: true,
       };
       res.json(response);

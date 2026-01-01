@@ -1,15 +1,21 @@
 {
   "version": 1,
-  "feature": null,
-  "featureName": null,
-  "status": "idle",
-  "attempt": 0,
+  "feature": "feature-008",
+  "featureName": "Productivity Insights Widget",
+  "status": "in_progress",
+  "attempt": 1,
   "maxAttempts": 10,
-  "startedAt": null,
+  "startedAt": "2026-01-01T10:10:00.000Z",
   "completedAt": null,
   "lastAttemptAt": null,
-  "verification": {},
+  "verification": {
+    "build": "npm run build",
+    "typecheck": "cd client && npx tsc --noEmit",
+    "tests": null,
+    "lint": null,
+    "custom": []
+  },
   "history": [],
-  "lastCheckpoint": "2653891",
+  "lastCheckpoint": "3652f0f",
   "escalationRequested": false
 }
