@@ -1,39 +1,38 @@
 {
-  "lastUpdated": "2026-01-01T09:20:00.000Z",
+  "lastUpdated": "2026-01-01T10:00:00.000Z",
   "currentProject": "claude-harness-demo",
   "lastSession": {
-    "summary": "Implemented feature-006 (Natural Language Task Entry) - AI-powered task parsing from natural language",
+    "summary": "Implemented feature-007 (Smart Task Suggestions) and planned feature-008 (Productivity Insights Widget)",
     "completedTasks": [
-      "Planned feature-006 implementation with 4 steps",
-      "Added ParsedTask types and /api/ai/parse-task endpoint",
-      "Created client AI API with parseTask() method",
-      "Built NaturalLanguageInput component with loading/error states",
-      "Integrated NL input into TasksWidget with fallback to manual entry",
-      "Passed all verification (build + typecheck) in 1 attempt",
-      "Committed feature-006 (ee4ca59)",
-      "Planned feature-007 (Smart Task Suggestions)"
+      "Completed feature-007 implementation with 5 steps",
+      "Added TaskSuggestion types to server and /api/ai/suggest-tasks endpoint",
+      "Created getSuggestions() in client AI API",
+      "Built SuggestionCard component with motion.dev animations",
+      "Integrated suggestions UI into TasksWidget (Get Suggestions button, add/dismiss)",
+      "Passed verification (build + typecheck) in 1 attempt",
+      "Committed and pushed feature-007 (1738428)",
+      "Planned feature-008 with 5-step implementation plan"
     ],
     "blockers": [],
     "nextSteps": [
-      "Run /claude-harness:implement feature-007 for Smart Task Suggestions",
       "Run /claude-harness:implement feature-008 for Productivity Insights Widget",
-      "Run /claude-harness:checkpoint after each feature",
+      "Run /claude-harness:checkpoint after feature-008",
       "Run /claude-harness:merge-all to release all features"
     ]
   },
   "recentChanges": [
-    "server/src/routes/ai.ts - Added /parse-task endpoint with Claude NL parsing",
-    "server/src/types/index.ts - Added ParsedTask types",
-    "client/src/api/ai.ts - New AI API client",
-    "client/src/components/NaturalLanguageInput.tsx - NL input component",
-    "client/src/components/TasksWidget.tsx - Integrated NL input"
+    "server/src/routes/ai.ts - Added /suggest-tasks endpoint with Claude suggestions",
+    "server/src/types/index.ts - Added TaskSuggestion, SuggestTasksRequest/Response types",
+    "client/src/api/ai.ts - Added getSuggestions() method and types",
+    "client/src/components/SuggestionCard.tsx - New suggestion card component",
+    "client/src/components/TasksWidget.tsx - Integrated suggestions panel"
   ],
   "knownIssues": [
     "ESLint config missing from project (pre-existing)"
   ],
   "environmentState": {
     "devServerRunning": false,
-    "lastSuccessfulBuild": "2026-01-01T09:15:00.000Z",
-    "lastTypeCheck": "2026-01-01T09:15:00.000Z"
+    "lastSuccessfulBuild": "2026-01-01T09:45:00.000Z",
+    "lastTypeCheck": "2026-01-01T09:45:00.000Z"
   }
 }

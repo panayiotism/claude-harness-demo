@@ -99,6 +99,7 @@
       "description": "AI-generated daily/weekly productivity summaries. Displays task completion stats, productivity patterns, personalized recommendations, and streak tracking.",
       "priority": 2,
       "passes": false,
+      "phase": "planned",
       "verification": [
         "New InsightsWidget visible in dashboard grid",
         "Displays task completion stats",
@@ -119,6 +120,7 @@
       "maxAttempts": 10,
       "relatedFiles": [
         "server/src/routes/ai.ts",
+        "server/src/types/index.ts",
         "client/src/components/InsightsWidget.tsx",
         "client/src/App.tsx",
         "client/src/api/ai.ts"
@@ -129,7 +131,61 @@
         "branch": "feature/feature-008"
       },
       "dependencies": ["feature-005"],
-      "createdAt": "2026-01-01T08:13:13.000Z"
+      "createdAt": "2026-01-01T08:13:13.000Z",
+      "plan": {
+        "steps": [
+          {
+            "step": 1,
+            "description": "Add Insights types to server",
+            "files": ["server/src/types/index.ts"],
+            "details": "Add InsightsRequest, InsightsResponse, ProductivityStats interfaces"
+          },
+          {
+            "step": 2,
+            "description": "Add POST /api/ai/insights endpoint",
+            "files": ["server/src/routes/ai.ts"],
+            "details": "Accepts task/pomodoro stats, uses Claude to generate productivity summary paragraph"
+          },
+          {
+            "step": 3,
+            "description": "Add getInsights to frontend AI API",
+            "files": ["client/src/api/ai.ts"],
+            "details": "Export getInsights(stats) method that calls /api/ai/insights"
+          },
+          {
+            "step": 4,
+            "description": "Create InsightsWidget component",
+            "files": ["client/src/components/InsightsWidget.tsx"],
+            "details": "Widget showing stats (completed/total, today, week), AI summary, refresh button with 1hr cooldown"
+          },
+          {
+            "step": 5,
+            "description": "Add InsightsWidget to App dashboard",
+            "files": ["client/src/App.tsx"],
+            "details": "Import and add InsightsWidget to the dashboard grid"
+          }
+        ],
+        "estimatedFiles": [
+          "server/src/types/index.ts",
+          "server/src/routes/ai.ts",
+          "client/src/api/ai.ts",
+          "client/src/components/InsightsWidget.tsx",
+          "client/src/App.tsx"
+        ],
+        "impactScore": "low",
+        "risks": [
+          "Too frequent API calls without caching",
+          "Stale insights not meaningful",
+          "Widget too large or small for grid"
+        ],
+        "mitigations": [
+          "localStorage cache with 1-hour TTL",
+          "Show last updated timestamp",
+          "Match existing widget dimensions"
+        ],
+        "pastFailuresToAvoid": [],
+        "approachFromSuccesses": "Follow feature-007 patterns. Use WidgetCard wrapper. Match Crystalline Noir styling with purple/teal AI accents."
+      }
     }
   ]
 }
