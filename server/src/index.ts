@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { runMigrations } from './db';
@@ -9,6 +10,7 @@ import notesRouter from './routes/notes';
 import tasksRouter from './routes/tasks';
 import linksRouter from './routes/links';
 import pomodoroRouter from './routes/pomodoro';
+import aiRouter from './routes/ai';
 
 const app = express();
 const PORT = process.env.PORT || 3010;
@@ -40,6 +42,7 @@ app.use('/api/notes', notesRouter);
 app.use('/api/tasks', tasksRouter);
 app.use('/api/links', linksRouter);
 app.use('/api/pomodoro', pomodoroRouter);
+app.use('/api/ai', aiRouter);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
@@ -95,6 +98,9 @@ const startServer = async () => {
 ║  - CRUD /api/links                                 ║
 ║  - POST /api/pomodoro/session                      ║
 ║  - GET  /api/pomodoro/stats                        ║
+║  - POST /api/ai/complete                           ║
+║  - GET  /api/ai/status                             ║
+║  - GET  /api/ai/usage                              ║
 ╚════════════════════════════════════════════════════╝
       `);
     });

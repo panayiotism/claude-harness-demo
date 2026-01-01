@@ -1,20 +1,28 @@
 {
   "version": 1,
-  "lastUpdated": "2026-01-01T09:50:00.000Z",
-  "activeFeature": null,
-  "summary": "Harness v3.0 migration complete - no active feature",
-  "workingFiles": {},
+  "lastUpdated": "2026-01-01T08:11:30.000Z",
+  "activeFeature": "feature-005",
+  "summary": "Claude API Backend - Secure Anthropic API integration",
+  "workingFiles": {
+    "server/src/routes/ai.ts": "new - AI endpoints",
+    "server/src/services/anthropic.ts": "new - SDK wrapper",
+    "server/src/db/schema.sql": "modify - add ai_usage table",
+    "server/.env.example": "modify - add ANTHROPIC_API_KEY",
+    "server/src/index.ts": "modify - mount ai routes"
+  },
   "decisions": [
-    "Migrated v2.x harness to v3.0 Memory Architecture",
-    "Preserved backward-compatible files (feature-list.json, claude-progress.json)",
-    "Created layered memory structure (working, episodic, semantic, procedural)"
+    "Use @anthropic-ai/sdk for Claude API integration",
+    "Store API key in environment variable only",
+    "Implement rate limiting at 10 req/min",
+    "Log usage to SQLite for monitoring"
   ],
   "codebaseUnderstanding": {
     "harness": "v3.0 uses multi-layer memory for better context retention",
-    "project": "React+Express dashboard with motion.dev animations"
+    "project": "React+Express dashboard with motion.dev animations",
+    "backend": "Express with better-sqlite3, routes in server/src/routes/"
   },
   "nextSteps": [
-    "Run /claude-harness:start to sync with GitHub",
-    "Add new features with /claude-harness:feature"
+    "Run /claude-harness:plan-feature feature-005 to plan implementation",
+    "Run /claude-harness:implement feature-005 to start agentic loop"
   ]
 }

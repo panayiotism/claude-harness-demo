@@ -41,8 +41,22 @@ CREATE TABLE IF NOT EXISTS pomodoro_sessions (
   completed_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- AI Usage tracking table
+CREATE TABLE IF NOT EXISTS ai_usage (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  endpoint TEXT NOT NULL,
+  model TEXT NOT NULL,
+  prompt_tokens INTEGER DEFAULT 0,
+  completion_tokens INTEGER DEFAULT 0,
+  total_tokens INTEGER DEFAULT 0,
+  client_ip TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Indexes for better query performance
 CREATE INDEX IF NOT EXISTS idx_tasks_completed ON tasks(completed);
 CREATE INDEX IF NOT EXISTS idx_tasks_due_date ON tasks(due_date);
 CREATE INDEX IF NOT EXISTS idx_links_position ON links(position);
 CREATE INDEX IF NOT EXISTS idx_pomodoro_completed_at ON pomodoro_sessions(completed_at);
+CREATE INDEX IF NOT EXISTS idx_ai_usage_created_at ON ai_usage(created_at);
+CREATE INDEX IF NOT EXISTS idx_ai_usage_endpoint ON ai_usage(endpoint);

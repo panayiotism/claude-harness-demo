@@ -98,3 +98,31 @@ export interface ApiErrorResponse {
 }
 
 export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+
+// AI types
+export interface AICompletionRequest {
+  prompt: string;
+  system?: string;
+  maxTokens?: number;
+}
+
+export interface AICompletionResponse {
+  content: string;
+  model: string;
+  usage: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+  };
+}
+
+export interface AIUsage {
+  id: number;
+  endpoint: string;
+  model: string;
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+  client_ip: string | null;
+  created_at: string;
+}

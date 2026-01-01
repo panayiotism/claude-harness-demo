@@ -1,4 +1,233 @@
 {
   "version": 1,
-  "features": []
+  "features": [
+    {
+      "id": "feature-005",
+      "name": "Claude API Backend",
+      "description": "Secure integration with Anthropic API for AI-powered productivity features. Foundation for Smart Productivity Assistant suite.",
+      "priority": 1,
+      "passes": true,
+      "phase": "implemented",
+      "verification": [
+        "ANTHROPIC_API_KEY loaded from environment variable",
+        "API key never exposed to frontend (server-side only)",
+        "POST /api/ai/complete endpoint accepts prompts and returns responses",
+        "Rate limiting prevents abuse (10 requests/minute per client)",
+        "Error handling for API failures (timeouts, rate limits, invalid keys)",
+        "Usage logged to SQLite (tracking tokens, timestamps)",
+        "Server builds without TypeScript errors"
+      ],
+      "verificationCommands": {
+        "build": "npm run build:server --workspace=server",
+        "typecheck": "cd server && npx tsc --noEmit",
+        "tests": null,
+        "lint": null,
+        "custom": []
+      },
+      "maxAttempts": 10,
+      "relatedFiles": [
+        "server/src/routes/ai.ts",
+        "server/src/services/anthropic.ts",
+        "server/src/db/schema.sql",
+        "server/.env.example",
+        "server/src/index.ts",
+        "server/src/types/index.ts",
+        "server/src/middleware/rateLimit.ts"
+      ],
+      "github": {
+        "issueNumber": 5,
+        "prNumber": null,
+        "branch": "feature/feature-005"
+      },
+      "dependencies": [],
+      "createdAt": "2026-01-01T08:11:30.000Z",
+      "plan": {
+        "steps": [
+          {
+            "step": 1,
+            "description": "Install @anthropic-ai/sdk and dotenv packages",
+            "files": ["server/package.json"],
+            "command": "cd server && npm install @anthropic-ai/sdk dotenv"
+          },
+          {
+            "step": 2,
+            "description": "Add ai_usage table to SQLite schema for tracking API calls",
+            "files": ["server/src/db/schema.sql"],
+            "details": "CREATE TABLE ai_usage with columns: id, prompt_tokens, completion_tokens, model, endpoint, client_ip, created_at"
+          },
+          {
+            "step": 3,
+            "description": "Create AI-related TypeScript types",
+            "files": ["server/src/types/index.ts"],
+            "details": "Add AICompletionRequest, AICompletionResponse, AIUsage interfaces"
+          },
+          {
+            "step": 4,
+            "description": "Create Anthropic service wrapper",
+            "files": ["server/src/services/anthropic.ts"],
+            "details": "Initialize Anthropic client with env var, create completion function with error handling"
+          },
+          {
+            "step": 5,
+            "description": "Create rate limiting middleware",
+            "files": ["server/src/middleware/rateLimit.ts"],
+            "details": "In-memory rate limiter (10 req/min per IP), using Map with sliding window"
+          },
+          {
+            "step": 6,
+            "description": "Create AI routes with /complete endpoint",
+            "files": ["server/src/routes/ai.ts"],
+            "details": "POST /api/ai/complete - validates input, applies rate limit, calls Anthropic, logs usage"
+          },
+          {
+            "step": 7,
+            "description": "Mount AI routes in main server",
+            "files": ["server/src/index.ts"],
+            "details": "Import aiRouter, app.use('/api/ai', aiRouter)"
+          },
+          {
+            "step": 8,
+            "description": "Create .env.example with ANTHROPIC_API_KEY placeholder",
+            "files": ["server/.env.example"],
+            "details": "ANTHROPIC_API_KEY=sk-ant-..."
+          }
+        ],
+        "estimatedFiles": [
+          "server/package.json",
+          "server/src/db/schema.sql",
+          "server/src/types/index.ts",
+          "server/src/services/anthropic.ts",
+          "server/src/middleware/rateLimit.ts",
+          "server/src/routes/ai.ts",
+          "server/src/index.ts",
+          "server/.env.example"
+        ],
+        "impactScore": "low",
+        "risks": [
+          "API key exposure if not handled correctly",
+          "Rate limiting may need tuning for production",
+          "Token costs if no usage limits enforced"
+        ],
+        "mitigations": [
+          "API key only loaded on server, never sent to client",
+          "Rate limiting at 10 req/min is conservative for development",
+          "Usage logging enables cost monitoring"
+        ],
+        "pastFailuresToAvoid": [],
+        "approachFromSuccesses": "Used better-sqlite3 for synchronous DB operations. Created separate route files for each resource. Implemented validation utilities and custom error classes."
+      }
+    },
+    {
+      "id": "feature-006",
+      "name": "Natural Language Task Entry",
+      "description": "Parse natural language into structured tasks using Claude AI. Example: 'Buy groceries tomorrow morning' becomes a task with title, due date, and priority.",
+      "priority": 2,
+      "passes": false,
+      "verification": [
+        "Natural language input field visible in Tasks widget",
+        "Parses dates correctly (today, tomorrow, next week, specific dates)",
+        "Extracts priority from urgency words (urgent, important, low priority)",
+        "Shows loading animation during AI processing",
+        "Graceful fallback if AI unavailable",
+        "Matches Crystalline Noir design system",
+        "Client builds without TypeScript errors"
+      ],
+      "verificationCommands": {
+        "build": "npm run build",
+        "typecheck": "cd client && npx tsc --noEmit",
+        "tests": null,
+        "lint": null,
+        "custom": []
+      },
+      "maxAttempts": 10,
+      "relatedFiles": [
+        "server/src/routes/ai.ts",
+        "client/src/components/TasksWidget.tsx",
+        "client/src/components/NaturalLanguageInput.tsx",
+        "client/src/api/ai.ts"
+      ],
+      "github": {
+        "issueNumber": 6,
+        "prNumber": null,
+        "branch": "feature/feature-006"
+      },
+      "dependencies": ["feature-005"],
+      "createdAt": "2026-01-01T08:13:11.000Z"
+    },
+    {
+      "id": "feature-007",
+      "name": "Smart Task Suggestions",
+      "description": "AI-powered task recommendations based on existing tasks and patterns. Analyzes completed and pending tasks to suggest related tasks or next steps.",
+      "priority": 2,
+      "passes": false,
+      "verification": [
+        "Get Suggestions button visible in Tasks widget",
+        "AI analyzes last 20 tasks for context",
+        "Returns 3 actionable suggestions",
+        "One-click to add suggestion as task",
+        "Dismiss animation for rejected suggestions",
+        "Works gracefully with few tasks (helpful messaging)",
+        "Client builds without TypeScript errors"
+      ],
+      "verificationCommands": {
+        "build": "npm run build",
+        "typecheck": "cd client && npx tsc --noEmit",
+        "tests": null,
+        "lint": null,
+        "custom": []
+      },
+      "maxAttempts": 10,
+      "relatedFiles": [
+        "server/src/routes/ai.ts",
+        "client/src/components/TasksWidget.tsx",
+        "client/src/components/SuggestionCard.tsx",
+        "client/src/api/ai.ts"
+      ],
+      "github": {
+        "issueNumber": 7,
+        "prNumber": null,
+        "branch": "feature/feature-007"
+      },
+      "dependencies": ["feature-005"],
+      "createdAt": "2026-01-01T08:13:12.000Z"
+    },
+    {
+      "id": "feature-008",
+      "name": "Productivity Insights Widget",
+      "description": "AI-generated daily/weekly productivity summaries. Displays task completion stats, productivity patterns, personalized recommendations, and streak tracking.",
+      "priority": 2,
+      "passes": false,
+      "verification": [
+        "New InsightsWidget visible in dashboard grid",
+        "Displays task completion stats",
+        "AI-generated summary paragraph",
+        "Refresh button to regenerate insights",
+        "Caches insights (regenerate max 1x/hour)",
+        "Matches Crystalline Noir design system",
+        "Animated entrance with motion.dev",
+        "Client builds without TypeScript errors"
+      ],
+      "verificationCommands": {
+        "build": "npm run build",
+        "typecheck": "cd client && npx tsc --noEmit",
+        "tests": null,
+        "lint": null,
+        "custom": []
+      },
+      "maxAttempts": 10,
+      "relatedFiles": [
+        "server/src/routes/ai.ts",
+        "client/src/components/InsightsWidget.tsx",
+        "client/src/App.tsx",
+        "client/src/api/ai.ts"
+      ],
+      "github": {
+        "issueNumber": 8,
+        "prNumber": null,
+        "branch": "feature/feature-008"
+      },
+      "dependencies": ["feature-005"],
+      "createdAt": "2026-01-01T08:13:13.000Z"
+    }
+  ]
 }
