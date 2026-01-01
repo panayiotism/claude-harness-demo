@@ -6,8 +6,8 @@
       "name": "Productivity Insights Widget",
       "description": "AI-generated daily/weekly productivity summaries. Displays task completion stats, productivity patterns, personalized recommendations, and streak tracking.",
       "priority": 2,
-      "passes": false,
-      "phase": "planned",
+      "passes": true,
+      "phase": "implemented",
       "verification": [
         "New InsightsWidget visible in dashboard grid",
         "Displays task completion stats",
