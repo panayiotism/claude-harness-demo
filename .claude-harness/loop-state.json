@@ -1,41 +1,14 @@
 {
   "version": 1,
-  "feature": "feature-006",
-  "featureName": "Natural Language Task Entry",
-  "status": "completed",
-  "attempt": 1,
+  "feature": null,
+  "featureName": null,
+  "status": "idle",
+  "attempt": 0,
   "maxAttempts": 10,
-  "startedAt": "2026-01-01T09:00:00.000Z",
-  "completedAt": "2026-01-01T09:15:00.000Z",
-  "lastAttemptAt": "2026-01-01T09:15:00.000Z",
-  "verification": {
-    "build": "npm run build",
-    "typecheck": "cd client && npx tsc --noEmit",
-    "tests": null,
-    "lint": null,
-    "custom": []
-  },
-  "history": [
-    {
-      "attempt": 1,
-      "timestamp": "2026-01-01T09:15:00.000Z",
-      "approach": "Followed implementation plan: added ParsedTask types to server, created /api/ai/parse-task endpoint with Claude prompt for NL parsing, created client AI API, built NaturalLanguageInput component with loading/error states, integrated into TasksWidget with fallback to manual entry",
-      "filesModified": [
-        "server/src/types/index.ts",
-        "server/src/routes/ai.ts",
-        "client/src/components/TasksWidget.tsx"
-      ],
-      "filesCreated": [
-        "client/src/api/ai.ts",
-        "client/src/components/NaturalLanguageInput.tsx"
-      ],
-      "result": "passed",
-      "verificationResults": {
-        "build": "passed",
-        "typecheck": "passed"
-      }
-    }
-  ],
-  "lastCheckpoint": null,
+  "startedAt": null,
+  "lastAttemptAt": null,
+  "verification": {},
+  "history": [],
+  "lastCheckpoint": "0a7aca1",
   "escalationRequested": false
 }
