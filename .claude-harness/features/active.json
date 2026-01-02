@@ -1,40 +1,4 @@
 {
   "features": [],
-  "fixes": [
-    {
-      "id": "fix-feature-001-001",
-      "name": "Cannot mark task as completed - missing PATCH /toggle endpoint",
-      "description": "Users cannot mark tasks as completed by clicking the checkbox. The client calls PATCH /api/tasks/:id/toggle but this endpoint is missing from the server routes.",
-      "linkedTo": {
-        "featureId": "feature-001",
-        "featureName": "Personal Dashboard Web Application",
-        "issueNumber": 1
-      },
-      "type": "bugfix",
-      "status": "passing",
-      "phase": "implementation",
-      "verification": {
-        "build": "npm run build",
-        "tests": null,
-        "lint": null,
-        "typecheck": "cd client && npx tsc --noEmit",
-        "custom": [],
-        "inherited": true
-      },
-      "attempts": 0,
-      "maxAttempts": 10,
-      "relatedFiles": [
-        "server/src/routes/tasks.ts",
-        "client/src/api/tasks.ts",
-        "client/src/components/TasksWidget.tsx"
-      ],
-      "github": {
-        "issueNumber": 10,
-        "prNumber": null,
-        "branch": "fix/feature-001-task-toggle-endpoint"
-      },
-      "createdAt": "2026-01-02T07:21:30.000Z",
-      "updatedAt": "2026-01-02T07:21:30.000Z"
-    }
-  ]
+  "fixes": []
 }
