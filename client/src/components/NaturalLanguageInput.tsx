@@ -58,17 +58,7 @@ const NaturalLanguageInput: React.FC<NaturalLanguageInputProps> = ({
           onKeyDown={handleKeyDown}
           disabled={isLoading || disabled}
           placeholder="Type naturally... e.g., 'Call mom tomorrow morning'"
-          className={`
-            w-full pl-10 pr-4 py-3
-            bg-gradient-to-r from-purple-500/5 to-amber-500/5
-            border border-purple-500/20
-            rounded-xl
-            text-white text-sm
-            placeholder:text-white/30
-            focus:outline-none focus:ring-2 focus:ring-purple-400/30 focus:border-purple-400/40
-            disabled:opacity-50 disabled:cursor-not-allowed
-            transition-all duration-200
-          `}
+          className="w-full pl-10 pr-4 py-3 bg-white/[0.06] border border-purple-500/20 rounded-xl text-white text-sm placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
         />
 
         {/* Sparkles icon / Loading spinner */}

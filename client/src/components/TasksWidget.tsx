@@ -52,6 +52,11 @@ const TasksWidget: React.FC = () => {
     }
   };
 
+  // Emit event when tasks change so other widgets can react
+  const emitTasksUpdated = useCallback(() => {
+    window.dispatchEvent(new CustomEvent('tasks-updated'));
+  }, []);
+
   const handleAdd = async () => {
     if (!formData.title.trim()) return;
 
@@ -80,6 +85,7 @@ const TasksWidget: React.FC = () => {
       }
       setFormData({ title: '', priority: 'medium', dueDate: '' });
       setIsModalOpen(false);
+      emitTasksUpdated();
     } catch (error) {
       console.error('Error adding task:', error);
     }
@@ -97,6 +103,7 @@ const TasksWidget: React.FC = () => {
         const updated = await tasksApi.toggleComplete(id);
         setTasks(tasks.map((task) => (task.id === id ? updated : task)));
       }
+      emitTasksUpdated();
     } catch (error) {
       console.error('Error toggling task:', error);
     }
@@ -112,6 +119,7 @@ const TasksWidget: React.FC = () => {
         await tasksApi.delete(id);
         setTasks(tasks.filter((task) => task.id !== id));
       }
+      emitTasksUpdated();
     } catch (error) {
       console.error('Error deleting task:', error);
     }
@@ -176,10 +184,11 @@ const TasksWidget: React.FC = () => {
         });
         setTasks((prev) => [...prev, created]);
       }
+      emitTasksUpdated();
     } catch (error) {
       console.error('Error adding parsed task:', error);
     }
-  }, [tasks, useLocalStorage, saveToStorage]);
+  }, [tasks, useLocalStorage, saveToStorage, emitTasksUpdated]);
 
   // Open modal as fallback when AI fails
   const handleAIError = useCallback(() => {
@@ -238,10 +247,11 @@ const TasksWidget: React.FC = () => {
       }
       // Remove the suggestion after adding
       setSuggestions((prev) => prev.filter((s) => s.id !== suggestion.id));
+      emitTasksUpdated();
     } catch (error) {
       console.error('Error adding suggestion as task:', error);
     }
-  }, [tasks, useLocalStorage]);
+  }, [tasks, useLocalStorage, emitTasksUpdated]);
 
   // Dismiss a suggestion
   const handleDismissSuggestion = useCallback((id: string) => {

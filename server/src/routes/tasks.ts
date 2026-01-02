@@ -168,6 +168,35 @@ router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
+// PATCH /api/tasks/:id/toggle - Toggle task completion status
+router.patch('/:id/toggle', (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
+
+    // Check if task exists
+    const existingTask = db.prepare('SELECT * FROM tasks WHERE id = ?').get(id) as Task | undefined;
+    if (!existingTask) {
+      throw new NotFoundError('Task');
+    }
+
+    // Toggle the completed status
+    const newCompleted = existingTask.completed ? 0 : 1;
+    db.prepare('UPDATE tasks SET completed = ? WHERE id = ?').run(newCompleted, id);
+
+    const task = db.prepare('SELECT * FROM tasks WHERE id = ?').get(id) as Task;
+
+    const formattedTask = {
+      ...task,
+      completed: Boolean(task.completed),
+    };
+
+    const response: ApiSuccessResponse<Task> = { data: formattedTask, success: true };
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // DELETE /api/tasks/:id - Delete task
 router.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
   try {
