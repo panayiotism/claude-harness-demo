@@ -1,33 +1,33 @@
 {
-  "lastUpdated": "2026-01-02T07:25:00.000Z",
+  "lastUpdated": "2026-01-02T07:38:00.000Z",
   "currentProject": "claude-harness-demo",
   "lastSession": {
-    "summary": "Fixed bug: Cannot mark task as completed - added missing PATCH /toggle endpoint",
+    "summary": "Fixed two bugs: (1) Missing PATCH /toggle endpoint, (2) InsightsWidget reactivity",
     "completedTasks": [
-      "Diagnosed bug: client calls PATCH /api/tasks/:id/toggle but endpoint was missing",
-      "Created GitHub issue #10 for the bug fix",
-      "Created fix branch: fix/feature-001-task-toggle-endpoint",
-      "Added PATCH /:id/toggle endpoint to server/src/routes/tasks.ts",
-      "Passed verification (build + typecheck) in 1 attempt",
-      "Committed fix (3223fae)"
+      "fix-feature-001-001: Added PATCH /api/tasks/:id/toggle endpoint (PR #11)",
+      "fix-feature-008-001: Made InsightsWidget update reactively when tasks change",
+      "Used custom events (window.dispatchEvent) for cross-component communication",
+      "TasksWidget emits 'tasks-updated' event, InsightsWidget listens and reloads stats",
+      "Both fixes passed verification (build + typecheck) in 1 attempt each"
     ],
     "blockers": [],
     "nextSteps": [
-      "Create PR for fix-feature-001-001",
-      "Merge fix PR to main",
+      "Create PR for fix-feature-008-001",
+      "Merge fix PRs #11 and new PR",
       "Merge PR #9 (feature-005 with all AI features)",
       "Run /claude-harness:merge-all to release all features"
     ]
   },
   "recentChanges": [
-    "server/src/routes/tasks.ts - Added PATCH /:id/toggle endpoint"
+    "client/src/components/TasksWidget.tsx - Added emitTasksUpdated() event dispatch",
+    "client/src/components/InsightsWidget.tsx - Added event listener for tasks-updated"
   ],
   "knownIssues": [
     "ESLint config missing from project (pre-existing)"
   ],
   "environmentState": {
     "devServerRunning": false,
-    "lastSuccessfulBuild": "2026-01-02T07:23:00.000Z",
-    "lastTypeCheck": "2026-01-02T07:23:00.000Z"
+    "lastSuccessfulBuild": "2026-01-02T07:35:00.000Z",
+    "lastTypeCheck": "2026-01-02T07:35:00.000Z"
   }
 }

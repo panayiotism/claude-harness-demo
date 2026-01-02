@@ -1,25 +1,27 @@
 {
   "version": 1,
-  "lastUpdated": "2026-01-02T07:25:00.000Z",
+  "lastUpdated": "2026-01-02T07:38:00.000Z",
   "activeFeature": null,
-  "activeFix": "fix-feature-001-001",
-  "summary": "Fixed missing PATCH /toggle endpoint for task completion",
+  "activeFix": "fix-feature-008-001",
+  "summary": "Fixed InsightsWidget reactivity when tasks change",
   "workingFiles": {
-    "server/src/routes/tasks.ts": "modified - added PATCH /:id/toggle endpoint"
+    "client/src/components/TasksWidget.tsx": "modified - added emitTasksUpdated() event dispatch",
+    "client/src/components/InsightsWidget.tsx": "modified - added event listener for tasks-updated"
   },
   "decisions": [
-    "Bug diagnosed: client calls PATCH /api/tasks/:id/toggle but endpoint was missing",
-    "Added toggle endpoint following existing PUT /:id pattern",
-    "Fix verified with build + typecheck in 1 attempt"
+    "Used custom events (window.dispatchEvent) for cross-component communication",
+    "TasksWidget emits 'tasks-updated' after add/toggle/delete operations",
+    "InsightsWidget reloads stats on event, but NOT AI insights (respects 1hr cache)",
+    "Event cleanup in useEffect return to prevent memory leaks"
   ],
   "codebaseUnderstanding": {
-    "tasksBackend": "server/src/routes/tasks.ts has GET, POST, PUT, DELETE, now PATCH /toggle",
-    "tasksClient": "client/src/api/tasks.ts calls tasksApi.toggleComplete(id)",
-    "patterns": "Express routes use better-sqlite3, return {data, success} wrapper"
+    "crossComponentComm": "Custom events via window.dispatchEvent/addEventListener",
+    "insightsCache": "AI insights have 1hr TTL in localStorage, stats reload on task changes",
+    "patterns": "useCallback for event handlers, useEffect cleanup for listeners"
   },
   "nextSteps": [
-    "Push fix branch and create PR",
-    "Merge fix PR #10",
+    "Push fix and create PR for fix-feature-008-001",
+    "Merge fix PRs #11 and new PR",
     "Merge feature PR #9 (all AI features)",
     "Run /claude-harness:merge-all to release"
   ]
