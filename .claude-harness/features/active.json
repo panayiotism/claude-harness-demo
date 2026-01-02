@@ -1,3 +1,38 @@
 {
-  "features": []
+  "features": [],
+  "fixes": [
+    {
+      "id": "fix-feature-006-001",
+      "name": "NaturalLanguageInput styling not inline with Crystalline Noir design",
+      "description": "The AI natural language input field has inconsistent styling - white/transparent background, text visibility issues. Need to apply standard bg-white/[0.06] dark styling.",
+      "linkedTo": {
+        "featureId": "feature-006",
+        "featureName": "Natural Language Task Entry",
+        "issueNumber": 6
+      },
+      "type": "bugfix",
+      "status": "passing",
+      "phase": "implementation",
+      "verification": {
+        "build": "npm run build",
+        "tests": null,
+        "lint": null,
+        "typecheck": "cd client && npx tsc --noEmit",
+        "custom": [],
+        "inherited": true
+      },
+      "attempts": 1,
+      "maxAttempts": 10,
+      "relatedFiles": [
+        "client/src/components/NaturalLanguageInput.tsx"
+      ],
+      "github": {
+        "issueNumber": 14,
+        "prNumber": null,
+        "branch": "fix/feature-006-input-styling"
+      },
+      "createdAt": "2026-01-02T08:05:00.000Z",
+      "updatedAt": "2026-01-02T08:05:00.000Z"
+    }
+  ]
 }

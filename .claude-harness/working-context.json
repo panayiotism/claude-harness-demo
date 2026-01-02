@@ -1,32 +1,25 @@
 {
   "version": 1,
-  "lastUpdated": "2026-01-01T10:00:00.000Z",
-  "activeFeature": "feature-008",
-  "summary": "Productivity Insights Widget - AI-generated productivity summaries",
+  "lastUpdated": "2026-01-02T08:12:00.000Z",
+  "activeFeature": null,
+  "activeFix": "fix-feature-006-001",
+  "summary": "Fixed NaturalLanguageInput styling to match Crystalline Noir",
   "workingFiles": {
-    "server/src/routes/ai.ts": "modify - add /api/ai/insights endpoint",
-    "server/src/types/index.ts": "modify - add InsightsRequest/Response types",
-    "client/src/api/ai.ts": "modify - add getInsights() method",
-    "client/src/components/InsightsWidget.tsx": "new - insights widget component",
-    "client/src/App.tsx": "modify - add InsightsWidget to dashboard grid"
+    "client/src/components/NaturalLanguageInput.tsx": "modified - fixed input background and focus styling"
   },
   "decisions": [
-    "feature-007 complete - Smart Task Suggestions working",
-    "Uses /api/ai/suggest-tasks for AI task recommendations",
-    "SuggestionCard has add/dismiss with motion.dev animations",
-    "Purple gradient styling for AI-powered features",
-    "feature-008 planned with 5 implementation steps"
+    "Changed input background from gradient to solid bg-white/[0.06]",
+    "Kept purple border/focus colors to indicate AI feature",
+    "Increased placeholder opacity to 0.40 for better visibility"
   ],
   "codebaseUnderstanding": {
-    "aiBackend": "/api/ai endpoints: /status, /complete, /parse-task, /suggest-tasks",
-    "clientAiApi": "client/src/api/ai.ts exports aiApi with parseTask(), getSuggestions()",
-    "patterns": "WidgetCard wrapper, motion.dev animations, Crystalline Noir styling"
+    "inputStyling": "Crystalline Noir inputs use bg-white/[0.06], border-white/10, text-white",
+    "aiFeatures": "AI features use purple accent colors (border-purple-500/20, ring-purple-400/50)",
+    "patterns": "Standard input classes: w-full px-4 py-3 bg-white/[0.06] border rounded-lg"
   },
   "nextSteps": [
-    "Implement feature-008 (Productivity Insights Widget)",
-    "Add InsightsRequest/Response types to server",
-    "Create /api/ai/insights endpoint",
-    "Build InsightsWidget with stats + AI summary",
-    "Add to App.tsx dashboard grid"
+    "Push fix and create PR",
+    "Merge all open PRs (#9, #11, #13, new)",
+    "Run /claude-harness:merge-all to release"
   ]
 }
