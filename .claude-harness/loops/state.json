@@ -1,14 +1,39 @@
 {
-  "version": 1,
-  "feature": null,
-  "featureName": null,
-  "status": "idle",
-  "attempt": 0,
+  "version": 3,
+  "feature": "fix-feature-001-001",
+  "featureName": "Cannot mark task as completed - missing PATCH /toggle endpoint",
+  "type": "fix",
+  "linkedTo": {
+    "featureId": "feature-001",
+    "featureName": "Personal Dashboard Web Application"
+  },
+  "status": "completed",
+  "attempt": 1,
   "maxAttempts": 10,
-  "startedAt": null,
-  "lastAttemptAt": null,
-  "verification": {},
-  "history": [],
-  "lastCheckpoint": "aff448c",
+  "startedAt": "2026-01-02T07:22:00.000Z",
+  "completedAt": "2026-01-02T07:23:00.000Z",
+  "lastAttemptAt": "2026-01-02T07:23:00.000Z",
+  "verification": {
+    "build": "npm run build",
+    "tests": null,
+    "lint": null,
+    "typecheck": "cd client && npx tsc --noEmit",
+    "custom": []
+  },
+  "history": [
+    {
+      "attempt": 1,
+      "timestamp": "2026-01-02T07:23:00.000Z",
+      "approach": "Added PATCH /:id/toggle endpoint to server/src/routes/tasks.ts that toggles the completed status of a task",
+      "filesModified": ["server/src/routes/tasks.ts"],
+      "filesCreated": [],
+      "result": "passed",
+      "verificationResults": {
+        "build": "passed",
+        "typecheck": "passed"
+      }
+    }
+  ],
+  "lastCheckpoint": null,
   "escalationRequested": false
 }
