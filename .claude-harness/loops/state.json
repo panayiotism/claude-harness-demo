@@ -1,41 +1,17 @@
 {
   "version": 3,
-  "feature": "fix-feature-006-001",
-  "featureName": "NaturalLanguageInput styling not inline with Crystalline Noir design",
-  "type": "fix",
-  "linkedTo": {
-    "featureId": "feature-006",
-    "featureName": "Natural Language Task Entry"
-  },
-  "status": "completed",
-  "attempt": 1,
+  "feature": null,
+  "featureName": null,
+  "type": null,
+  "linkedTo": null,
+  "status": "idle",
+  "attempt": 0,
   "maxAttempts": 10,
-  "startedAt": "2026-01-02T08:05:00.000Z",
-  "completedAt": "2026-01-02T08:10:00.000Z",
-  "lastAttemptAt": "2026-01-02T08:10:00.000Z",
-  "verification": {
-    "build": "npm run build",
-    "tests": null,
-    "lint": null,
-    "typecheck": "cd client && npx tsc --noEmit",
-    "custom": []
-  },
-  "history": [
-    {
-      "attempt": 1,
-      "timestamp": "2026-01-02T08:10:00.000Z",
-      "approach": "Changed input background from gradient (from-purple-500/5 to-amber-500/5) to standard bg-white/[0.06]. Updated placeholder opacity to 0.40 and focus ring to purple-400/50 for consistency.",
-      "filesModified": [
-        "client/src/components/NaturalLanguageInput.tsx"
-      ],
-      "filesCreated": [],
-      "result": "passed",
-      "verificationResults": {
-        "build": "passed",
-        "typecheck": "passed"
-      }
-    }
-  ],
-  "lastCheckpoint": null,
+  "startedAt": null,
+  "completedAt": null,
+  "lastAttemptAt": null,
+  "verification": null,
+  "history": [],
+  "lastCheckpoint": "f8054f0",
   "escalationRequested": false
 }
