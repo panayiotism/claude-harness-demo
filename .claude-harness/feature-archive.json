@@ -304,6 +304,40 @@
       },
       "createdAt": "2026-01-02T07:21:30.000Z",
       "archivedAt": "2026-01-02T07:28:00.000Z"
+    },
+    {
+      "id": "fix-feature-008-001",
+      "name": "InsightsWidget should update reactively when tasks change",
+      "description": "The InsightsWidget displays task completion stats but doesn't update when tasks are added, completed, or deleted in the TasksWidget. Implemented custom events for cross-component communication.",
+      "linkedTo": {
+        "featureId": "feature-008",
+        "featureName": "Productivity Insights Widget",
+        "issueNumber": 8
+      },
+      "type": "bugfix",
+      "status": "passing",
+      "phase": "complete",
+      "verification": {
+        "build": "npm run build",
+        "tests": null,
+        "lint": null,
+        "typecheck": "cd client && npx tsc --noEmit",
+        "custom": [],
+        "inherited": true
+      },
+      "attempts": 1,
+      "maxAttempts": 10,
+      "relatedFiles": [
+        "client/src/components/TasksWidget.tsx",
+        "client/src/components/InsightsWidget.tsx"
+      ],
+      "github": {
+        "issueNumber": 12,
+        "prNumber": 13,
+        "branch": "fix/feature-008-insights-reactivity"
+      },
+      "createdAt": "2026-01-02T07:32:00.000Z",
+      "archivedAt": "2026-01-02T07:45:00.000Z"
     }
   ]
 }

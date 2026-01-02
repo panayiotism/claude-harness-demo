@@ -1,27 +1,18 @@
 {
   "version": 1,
-  "lastUpdated": "2026-01-02T07:38:00.000Z",
+  "lastUpdated": "2026-01-02T07:45:00.000Z",
   "activeFeature": null,
-  "activeFix": "fix-feature-008-001",
-  "summary": "Fixed InsightsWidget reactivity when tasks change",
-  "workingFiles": {
-    "client/src/components/TasksWidget.tsx": "modified - added emitTasksUpdated() event dispatch",
-    "client/src/components/InsightsWidget.tsx": "modified - added event listener for tasks-updated"
-  },
-  "decisions": [
-    "Used custom events (window.dispatchEvent) for cross-component communication",
-    "TasksWidget emits 'tasks-updated' after add/toggle/delete operations",
-    "InsightsWidget reloads stats on event, but NOT AI insights (respects 1hr cache)",
-    "Event cleanup in useEffect return to prevent memory leaks"
-  ],
+  "activeFix": null,
+  "summary": "Completed checkpoint for fix-feature-008-001. All fixes archived.",
+  "workingFiles": {},
+  "decisions": [],
   "codebaseUnderstanding": {
     "crossComponentComm": "Custom events via window.dispatchEvent/addEventListener",
     "insightsCache": "AI insights have 1hr TTL in localStorage, stats reload on task changes",
     "patterns": "useCallback for event handlers, useEffect cleanup for listeners"
   },
   "nextSteps": [
-    "Push fix and create PR for fix-feature-008-001",
-    "Merge fix PRs #11 and new PR",
+    "Merge fix PRs #11 and #13",
     "Merge feature PR #9 (all AI features)",
     "Run /claude-harness:merge-all to release"
   ]

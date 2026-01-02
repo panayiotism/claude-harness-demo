@@ -1,26 +1,25 @@
 {
-  "lastUpdated": "2026-01-02T07:38:00.000Z",
+  "lastUpdated": "2026-01-02T07:45:00.000Z",
   "currentProject": "claude-harness-demo",
   "lastSession": {
-    "summary": "Fixed two bugs: (1) Missing PATCH /toggle endpoint, (2) InsightsWidget reactivity",
+    "summary": "Checkpoint completed. Archived fix-feature-008-001 (InsightsWidget reactivity).",
     "completedTasks": [
       "fix-feature-001-001: Added PATCH /api/tasks/:id/toggle endpoint (PR #11)",
-      "fix-feature-008-001: Made InsightsWidget update reactively when tasks change",
-      "Used custom events (window.dispatchEvent) for cross-component communication",
-      "TasksWidget emits 'tasks-updated' event, InsightsWidget listens and reloads stats",
-      "Both fixes passed verification (build + typecheck) in 1 attempt each"
+      "fix-feature-008-001: Made InsightsWidget update reactively when tasks change (PR #13)",
+      "Archived both fixes to feature-archive.json",
+      "Reset loop state to idle"
     ],
     "blockers": [],
     "nextSteps": [
-      "Create PR for fix-feature-008-001",
-      "Merge fix PRs #11 and new PR",
+      "Merge fix PRs #11 and #13",
       "Merge PR #9 (feature-005 with all AI features)",
       "Run /claude-harness:merge-all to release all features"
     ]
   },
   "recentChanges": [
     "client/src/components/TasksWidget.tsx - Added emitTasksUpdated() event dispatch",
-    "client/src/components/InsightsWidget.tsx - Added event listener for tasks-updated"
+    "client/src/components/InsightsWidget.tsx - Added event listener for tasks-updated",
+    "server/src/routes/tasks.ts - Added PATCH /:id/toggle endpoint"
   ],
   "knownIssues": [
     "ESLint config missing from project (pre-existing)"
