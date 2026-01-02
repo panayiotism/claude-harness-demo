@@ -1,19 +1,42 @@
 {
   "version": 3,
-  "feature": null,
-  "featureName": null,
-  "type": "feature",
+  "feature": "fix-feature-008-001",
+  "featureName": "InsightsWidget should update reactively when tasks change",
+  "type": "fix",
   "linkedTo": {
-    "featureId": null,
-    "featureName": null
+    "featureId": "feature-008",
+    "featureName": "Productivity Insights Widget"
   },
-  "status": "idle",
-  "attempt": 0,
+  "status": "completed",
+  "attempt": 1,
   "maxAttempts": 10,
-  "startedAt": null,
-  "lastAttemptAt": null,
-  "verification": {},
-  "history": [],
-  "lastCheckpoint": "a194b42",
+  "startedAt": "2026-01-02T07:32:00.000Z",
+  "completedAt": "2026-01-02T07:35:00.000Z",
+  "lastAttemptAt": "2026-01-02T07:35:00.000Z",
+  "verification": {
+    "build": "npm run build",
+    "tests": null,
+    "lint": null,
+    "typecheck": "cd client && npx tsc --noEmit",
+    "custom": []
+  },
+  "history": [
+    {
+      "attempt": 1,
+      "timestamp": "2026-01-02T07:35:00.000Z",
+      "approach": "Used custom events (window.dispatchEvent/addEventListener) to notify InsightsWidget when tasks change in TasksWidget. TasksWidget emits 'tasks-updated' event on add/toggle/delete, InsightsWidget listens and reloads stats.",
+      "filesModified": [
+        "client/src/components/TasksWidget.tsx",
+        "client/src/components/InsightsWidget.tsx"
+      ],
+      "filesCreated": [],
+      "result": "passed",
+      "verificationResults": {
+        "build": "passed",
+        "typecheck": "passed"
+      }
+    }
+  ],
+  "lastCheckpoint": null,
   "escalationRequested": false
 }

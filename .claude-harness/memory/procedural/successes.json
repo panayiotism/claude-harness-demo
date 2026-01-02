@@ -52,6 +52,24 @@
       "agents": ["claude-code"],
       "successRate": 1.0,
       "recordedAt": "2026-01-02T07:23:00.000Z"
+    },
+    {
+      "id": "fix-feature-008-001",
+      "timestamp": "2026-01-02T07:35:00.000Z",
+      "feature": "fix-feature-008-001",
+      "type": "fix",
+      "linkedTo": "feature-008",
+      "task": "Make InsightsWidget update reactively when tasks change",
+      "approach": "Used custom events (window.dispatchEvent/addEventListener) for cross-component communication. TasksWidget emits 'tasks-updated' event after add/toggle/delete operations. InsightsWidget listens for this event and reloads stats without regenerating AI insights.",
+      "files": ["client/src/components/TasksWidget.tsx", "client/src/components/InsightsWidget.tsx"],
+      "verificationResults": {
+        "build": "passed",
+        "typecheck": "passed"
+      },
+      "patterns": ["Custom events for React cross-component communication", "Event cleanup in useEffect return"],
+      "agents": ["claude-code"],
+      "successRate": 1.0,
+      "recordedAt": "2026-01-02T07:35:00.000Z"
     }
   ]
 }

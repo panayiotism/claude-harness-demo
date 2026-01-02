@@ -153,6 +153,19 @@ const InsightsWidget: React.FC = () => {
     generateInsights();
   }, [loadStats, generateInsights]);
 
+  // Listen for task changes from TasksWidget
+  useEffect(() => {
+    const handleTasksUpdated = () => {
+      // Reload stats when tasks change (but don't regenerate AI insights)
+      loadStats();
+    };
+
+    window.addEventListener('tasks-updated', handleTasksUpdated);
+    return () => {
+      window.removeEventListener('tasks-updated', handleTasksUpdated);
+    };
+  }, [loadStats]);
+
   // Format time since last update
   const formatLastUpdated = () => {
     if (!lastUpdated) return '';
