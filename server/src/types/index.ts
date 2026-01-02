@@ -98,3 +98,90 @@ export interface ApiErrorResponse {
 }
 
 export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+
+// AI types
+export interface AICompletionRequest {
+  prompt: string;
+  system?: string;
+  maxTokens?: number;
+}
+
+export interface AICompletionResponse {
+  content: string;
+  model: string;
+  usage: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+  };
+}
+
+export interface AIUsage {
+  id: number;
+  endpoint: string;
+  model: string;
+  prompt_tokens: number;
+  completion_tokens: number;
+  total_tokens: number;
+  client_ip: string | null;
+  created_at: string;
+}
+
+// Parsed task from natural language
+export interface ParsedTask {
+  title: string;
+  priority: TaskPriority;
+  dueDate: string | null;
+  confidence: number;
+}
+
+export interface ParseTaskRequest {
+  text: string;
+}
+
+export interface ParseTaskResponse {
+  task: ParsedTask;
+  originalText: string;
+}
+
+// Task suggestion types
+export interface TaskSuggestion {
+  id: string;
+  title: string;
+  priority: TaskPriority;
+  reason: string;
+}
+
+export interface SuggestTasksRequest {
+  tasks: Array<{
+    title: string;
+    completed: boolean;
+    priority: TaskPriority;
+  }>;
+}
+
+export interface SuggestTasksResponse {
+  suggestions: TaskSuggestion[];
+  message?: string;
+}
+
+// Productivity insights types
+export interface ProductivityStats {
+  tasksCompleted: number;
+  tasksTotal: number;
+  tasksCompletedToday: number;
+  tasksCompletedThisWeek: number;
+  pomodoroSessions: number;
+  pomodoroMinutes: number;
+  completionRate: number;
+}
+
+export interface InsightsRequest {
+  stats: ProductivityStats;
+}
+
+export interface InsightsResponse {
+  summary: string;
+  tips: string[];
+  generatedAt: string;
+}

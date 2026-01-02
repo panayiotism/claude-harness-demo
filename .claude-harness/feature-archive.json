@@ -151,6 +151,124 @@
         ]
       },
       "archivedAt": "2025-12-31T12:00:00.000Z"
+    },
+    {
+      "id": "feature-005",
+      "name": "Claude API Backend",
+      "description": "Secure integration with Anthropic API for AI-powered productivity features. Foundation for Smart Productivity Assistant suite.",
+      "priority": 1,
+      "passes": true,
+      "phase": "implemented",
+      "verification": [
+        "ANTHROPIC_API_KEY loaded from environment variable",
+        "API key never exposed to frontend (server-side only)",
+        "POST /api/ai/complete endpoint accepts prompts and returns responses",
+        "Rate limiting prevents abuse (10 requests/minute per client)",
+        "Error handling for API failures (timeouts, rate limits, invalid keys)",
+        "Usage logged to SQLite (tracking tokens, timestamps)",
+        "Server builds without TypeScript errors"
+      ],
+      "relatedFiles": [
+        "server/src/routes/ai.ts",
+        "server/src/services/anthropic.ts",
+        "server/src/db/schema.sql",
+        "server/.env.example",
+        "server/src/index.ts",
+        "server/src/types/index.ts",
+        "server/src/middleware/rateLimit.ts"
+      ],
+      "github": {
+        "issueNumber": 5,
+        "prNumber": 9,
+        "branch": "feature/feature-005"
+      },
+      "dependencies": [],
+      "technicalNotes": {
+        "sdk": "@anthropic-ai/sdk",
+        "keyImplementation": [
+          "Rate limiting middleware (10 req/min per IP)",
+          "Usage tracking in SQLite",
+          "Comprehensive error handling"
+        ]
+      },
+      "archivedAt": "2026-01-01T09:20:00.000Z"
+    },
+    {
+      "id": "feature-006",
+      "name": "Natural Language Task Entry",
+      "description": "Parse natural language into structured tasks using Claude AI. Example: 'Buy groceries tomorrow morning' becomes a task with title, due date, and priority.",
+      "priority": 2,
+      "passes": true,
+      "phase": "implemented",
+      "verification": [
+        "Natural language input field visible in Tasks widget",
+        "Parses dates correctly (today, tomorrow, next week, specific dates)",
+        "Extracts priority from urgency words (urgent, important, low priority)",
+        "Shows loading animation during AI processing",
+        "Graceful fallback if AI unavailable",
+        "Matches Crystalline Noir design system",
+        "Client builds without TypeScript errors"
+      ],
+      "relatedFiles": [
+        "server/src/routes/ai.ts",
+        "client/src/components/TasksWidget.tsx",
+        "client/src/components/NaturalLanguageInput.tsx",
+        "client/src/api/ai.ts"
+      ],
+      "github": {
+        "issueNumber": 6,
+        "prNumber": 9,
+        "branch": "feature/feature-005"
+      },
+      "dependencies": ["feature-005"],
+      "technicalNotes": {
+        "endpoint": "/api/ai/parse-task",
+        "keyImplementation": [
+          "NaturalLanguageInput component with loading/error states",
+          "Sparkles icon for AI indication",
+          "Graceful fallback to manual entry"
+        ]
+      },
+      "archivedAt": "2026-01-01T09:20:00.000Z"
+    },
+    {
+      "id": "feature-007",
+      "name": "Smart Task Suggestions",
+      "description": "AI-powered task recommendations based on existing tasks and patterns. Analyzes completed and pending tasks to suggest related tasks or next steps.",
+      "priority": 2,
+      "passes": true,
+      "phase": "implemented",
+      "verification": [
+        "Get Suggestions button visible in Tasks widget",
+        "AI analyzes last 20 tasks for context",
+        "Returns 3 actionable suggestions",
+        "One-click to add suggestion as task",
+        "Dismiss animation for rejected suggestions",
+        "Works gracefully with few tasks (helpful messaging)",
+        "Client builds without TypeScript errors"
+      ],
+      "relatedFiles": [
+        "server/src/routes/ai.ts",
+        "client/src/components/TasksWidget.tsx",
+        "client/src/components/SuggestionCard.tsx",
+        "client/src/api/ai.ts"
+      ],
+      "github": {
+        "issueNumber": 7,
+        "prNumber": 9,
+        "branch": "feature/feature-005"
+      },
+      "dependencies": ["feature-005"],
+      "technicalNotes": {
+        "endpoint": "/api/ai/suggest-tasks",
+        "keyImplementation": [
+          "SuggestionCard component with motion.dev animations",
+          "Purple gradient styling for AI features",
+          "Add/dismiss with smooth transitions",
+          "Min 2 tasks required for suggestions"
+        ]
+      },
+      "archivedAt": "2026-01-01T10:00:00.000Z"
     }
   ]
 }

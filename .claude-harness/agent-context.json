@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "lastUpdated": "2025-12-31T12:00:00.000Z",
+  "lastUpdated": "2026-01-01T10:00:00.000Z",
   "currentSession": null,
   "projectContext": {
     "name": "claude-harness-demo",
@@ -57,6 +57,12 @@
       "reason": "Prevents fixed positioning issues caused by parent transforms (whileHover animations)",
       "madeBy": "claude-code",
       "timestamp": "2025-12-31T12:00:00.000Z"
+    },
+    {
+      "decision": "AI features use purple/indigo gradient accents",
+      "reason": "Distinguishes AI-powered elements from regular UI while maintaining Crystalline Noir consistency",
+      "madeBy": "claude-code",
+      "timestamp": "2026-01-01T09:00:00.000Z"
     }
   ],
   "activeConstraints": [
@@ -75,7 +81,9 @@
       "colorScheme": "Noir palette with dark amber (#b45309) accents",
       "modalInputStyling": "bg-white/[0.06] border-white/10 with focus:ring-amber-400/50",
       "modalBackdrop": "bg-black/90 backdrop-blur-xl for high contrast",
-      "modalPortal": "Use createPortal to render modals at document.body"
+      "modalPortal": "Use createPortal to render modals at document.body",
+      "aiFeatureStyling": "Purple/indigo gradients (from-purple-500/10 to-indigo-500/10) for AI features",
+      "aiApiPattern": "client/src/api/ai.ts exports aiApi with parseTask(), getSuggestions()"
     },
     "fileIndex": {
       "components": ["client/src/components/"],
