@@ -1,38 +1,33 @@
 {
-  "lastUpdated": "2026-01-01T10:00:00.000Z",
+  "lastUpdated": "2026-01-02T07:25:00.000Z",
   "currentProject": "claude-harness-demo",
   "lastSession": {
-    "summary": "Implemented feature-007 (Smart Task Suggestions) and planned feature-008 (Productivity Insights Widget)",
+    "summary": "Fixed bug: Cannot mark task as completed - added missing PATCH /toggle endpoint",
     "completedTasks": [
-      "Completed feature-007 implementation with 5 steps",
-      "Added TaskSuggestion types to server and /api/ai/suggest-tasks endpoint",
-      "Created getSuggestions() in client AI API",
-      "Built SuggestionCard component with motion.dev animations",
-      "Integrated suggestions UI into TasksWidget (Get Suggestions button, add/dismiss)",
+      "Diagnosed bug: client calls PATCH /api/tasks/:id/toggle but endpoint was missing",
+      "Created GitHub issue #10 for the bug fix",
+      "Created fix branch: fix/feature-001-task-toggle-endpoint",
+      "Added PATCH /:id/toggle endpoint to server/src/routes/tasks.ts",
       "Passed verification (build + typecheck) in 1 attempt",
-      "Committed and pushed feature-007 (1738428)",
-      "Planned feature-008 with 5-step implementation plan"
+      "Committed fix (3223fae)"
     ],
     "blockers": [],
     "nextSteps": [
-      "Run /claude-harness:implement feature-008 for Productivity Insights Widget",
-      "Run /claude-harness:checkpoint after feature-008",
+      "Create PR for fix-feature-001-001",
+      "Merge fix PR to main",
+      "Merge PR #9 (feature-005 with all AI features)",
       "Run /claude-harness:merge-all to release all features"
     ]
   },
   "recentChanges": [
-    "server/src/routes/ai.ts - Added /suggest-tasks endpoint with Claude suggestions",
-    "server/src/types/index.ts - Added TaskSuggestion, SuggestTasksRequest/Response types",
-    "client/src/api/ai.ts - Added getSuggestions() method and types",
-    "client/src/components/SuggestionCard.tsx - New suggestion card component",
-    "client/src/components/TasksWidget.tsx - Integrated suggestions panel"
+    "server/src/routes/tasks.ts - Added PATCH /:id/toggle endpoint"
   ],
   "knownIssues": [
     "ESLint config missing from project (pre-existing)"
   ],
   "environmentState": {
     "devServerRunning": false,
-    "lastSuccessfulBuild": "2026-01-01T09:45:00.000Z",
-    "lastTypeCheck": "2026-01-01T09:45:00.000Z"
+    "lastSuccessfulBuild": "2026-01-02T07:23:00.000Z",
+    "lastTypeCheck": "2026-01-02T07:23:00.000Z"
   }
 }

@@ -1,32 +1,26 @@
 {
   "version": 1,
-  "lastUpdated": "2026-01-01T10:00:00.000Z",
-  "activeFeature": "feature-008",
-  "summary": "Productivity Insights Widget - AI-generated productivity summaries",
+  "lastUpdated": "2026-01-02T07:25:00.000Z",
+  "activeFeature": null,
+  "activeFix": "fix-feature-001-001",
+  "summary": "Fixed missing PATCH /toggle endpoint for task completion",
   "workingFiles": {
-    "server/src/routes/ai.ts": "modify - add /api/ai/insights endpoint",
-    "server/src/types/index.ts": "modify - add InsightsRequest/Response types",
-    "client/src/api/ai.ts": "modify - add getInsights() method",
-    "client/src/components/InsightsWidget.tsx": "new - insights widget component",
-    "client/src/App.tsx": "modify - add InsightsWidget to dashboard grid"
+    "server/src/routes/tasks.ts": "modified - added PATCH /:id/toggle endpoint"
   },
   "decisions": [
-    "feature-007 complete - Smart Task Suggestions working",
-    "Uses /api/ai/suggest-tasks for AI task recommendations",
-    "SuggestionCard has add/dismiss with motion.dev animations",
-    "Purple gradient styling for AI-powered features",
-    "feature-008 planned with 5 implementation steps"
+    "Bug diagnosed: client calls PATCH /api/tasks/:id/toggle but endpoint was missing",
+    "Added toggle endpoint following existing PUT /:id pattern",
+    "Fix verified with build + typecheck in 1 attempt"
   ],
   "codebaseUnderstanding": {
-    "aiBackend": "/api/ai endpoints: /status, /complete, /parse-task, /suggest-tasks",
-    "clientAiApi": "client/src/api/ai.ts exports aiApi with parseTask(), getSuggestions()",
-    "patterns": "WidgetCard wrapper, motion.dev animations, Crystalline Noir styling"
+    "tasksBackend": "server/src/routes/tasks.ts has GET, POST, PUT, DELETE, now PATCH /toggle",
+    "tasksClient": "client/src/api/tasks.ts calls tasksApi.toggleComplete(id)",
+    "patterns": "Express routes use better-sqlite3, return {data, success} wrapper"
   },
   "nextSteps": [
-    "Implement feature-008 (Productivity Insights Widget)",
-    "Add InsightsRequest/Response types to server",
-    "Create /api/ai/insights endpoint",
-    "Build InsightsWidget with stats + AI summary",
-    "Add to App.tsx dashboard grid"
+    "Push fix branch and create PR",
+    "Merge fix PR #10",
+    "Merge feature PR #9 (all AI features)",
+    "Run /claude-harness:merge-all to release"
   ]
 }
